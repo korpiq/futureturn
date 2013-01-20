@@ -1,0 +1,5 @@
+<project name="futureturn" default="nothing-yet">
+    <target name="nothing-yet">
+      <echo>Would you like to write some tests?</echo>
+    </target>
+</project>
