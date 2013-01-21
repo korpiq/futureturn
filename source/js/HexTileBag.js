@@ -9,6 +9,8 @@ function HexTileBag(number, totalNumberOfHexTileBags, tilesInBag)
     {
         this.createTile();
     }
+
+    this.viewTileAmounts();
 }
 
 HexTileBag.prototype = {
@@ -42,7 +44,9 @@ HexTileBag.prototype = {
     },
     createElement: function ()
     {
-        var element = document.createElement('span');
+        var element = document.createElement('div');
+        element.style.position = 'fixed';
+        element.style.left = (this.number * 1.2) + 'em';
         element.style.backgroundColor = this.color;
         element.style.textAlign = 'center';
         element.style.verticalAlign = 'middle';
@@ -84,5 +88,31 @@ HexTileBag.prototype = {
             green = 255 - red;
         }
         return "rgb(" + red + "," + green + "," + blue + ")";
+    },
+    viewTileAmounts: function()
+    {
+        if (! this.totalAmountElement)
+        {
+            this.totalAmountElement = this.createTotalAmountElement();
+        }
+        this.totalAmountElement.textContent = this.getTotalNumberOfTiles();
+    },
+    createTotalAmountElement: function()
+    {
+        var element = document.createElement('div');
+        element.style.backgroundColor = this.color;
+        element.style.textAlign = 'center';
+        element.style.verticalAlign = 'middle';
+        element.style.color = 'white';
+        element.style.fontSize = '0.5em';
+        element.style.padding = '0.1em';
+        element.style.margin = '0.1em';
+        element.textContent = '0';
+        this.element.appendChild(element);
+        return element;
+    },
+    getTotalNumberOfTiles: function()
+    {
+        return 0;
     }
 };
