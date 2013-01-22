@@ -3,7 +3,6 @@ function HexTileBag(number, totalNumberOfHexTileBags, tilesInBag)
     this.number = number;
     this.color = this.decideColor(number, totalNumberOfHexTileBags);
     this.element = this.createElement();
-    this.tileCount = tilesInBag;
     this.tiles = [];
     for(var i=0; i < tilesInBag; ++i)
     {
@@ -25,10 +24,12 @@ HexTileBag.prototype = {
             var i = this.tiles[tile.color].indexOf(tile);
             if (i !== undefined)
             {
-                return this.tiles[tile.color] =
+                var tile = this.tiles[tile.color] =
                     this.tiles[tile.color].slice(0,i).concat(
                         this.tiles[tile.color].slice(i+1)
                     );
+                this.viewTileAmounts();
+                return tile;
             }
         }
         throw "Tried to remove tile from bag that does not contain it";
@@ -40,7 +41,7 @@ HexTileBag.prototype = {
         if (!this.tiles[tile.color])
             this.tiles[tile.color] = [];
         this.tiles[tile.color].push(tile);
-        console.log(this.tiles);
+        this.viewTileAmounts();
     },
     createElement: function ()
     {
@@ -113,6 +114,29 @@ HexTileBag.prototype = {
     },
     getTotalNumberOfTiles: function()
     {
-        return 0;
+        var total = 0;
+        for ( var color in this.tiles )
+        {
+            total += this.tiles[color].length;
+        }
+        return total;
+    },
+    getTile: function()
+    {
+        var total = this.getTotalNumberOfTiles();
+        var it = Math.floor(Math.random()*total);
+        for ( var color in this.tiles )
+        {
+            var length = this.tiles[color].length;
+            if (it >= length)
+            {
+                it -= length;
+            }
+            else
+            {
+                return this.tiles[color][it];
+            }
+        }
+        throw "getTile from bag without tiles";
     }
 };

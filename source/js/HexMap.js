@@ -171,6 +171,15 @@ HexMap.prototype =
             document.it = this;
             this.dehighlight();
             delete(this.highlightColor);
+            if (this.tile)
+            {
+                this.tile.put(this.tile.bag);
+            }
+            else
+            {
+                currentHexTileBag.getTile().put(this);
+            }
+            /*
             currentColor = currentHexTileBag.color;
             if (this.style.backgroundColor === currentColor)
             {
@@ -180,7 +189,26 @@ HexMap.prototype =
             {
                 this.style.backgroundColor = currentColor;
             }
+            */
             this.highlight();
+        },
+        add: function (tile)
+        {
+            if (this.tile)
+            {
+                throw "Adding tile to a hex map that already has one";
+            }
+            this.tile = tile;
+            this.style.backgroundColor = this.tile.color;
+        },
+        remove: function (tile)
+        {
+            if (this.tile !== tile)
+            {
+                throw "Removing tile from map hex that does not have it";
+            }
+            this.tile = null;
+            this.style.backgroundColor = '';
         }
     }
 };

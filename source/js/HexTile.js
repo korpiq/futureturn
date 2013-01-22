@@ -2,6 +2,7 @@ function HexTile(bag)
 {
     this.color = bag.color;
     this.location = bag;
+    this.bag = bag;
 }
 
 HexTile.prototype =
