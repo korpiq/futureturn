@@ -1,0 +1,172 @@
+<h1 id="futureturndevelopmentplan">futureturn development plan</h1>
+
+<ul>
+<li>source of this document is in plan.md</li>
+<li>multimarkdown command is used to produce plan.html from the source</li>
+</ul>
+
+<h2 id="paralleldevelopmentiterations">parallel development iterations</h2>
+
+<p>Different aspects of the game development described below will probably be
+done in parallel, so that each serves as input or guidance for the other.</p>
+
+<h2 id="ruledevelopment">rule development</h2>
+
+<p>Once we have a rough simulator, or soon as it seems the simulator might benefit
+from such, we should start formulating game concepts and actual items such as
+individual rules and cards into a precise description, preferably machine readable.</p>
+
+<h3 id="why">Why</h3>
+
+<ul>
+<li>Machine readability + minimal form and expression
+
+<ul>
+<li>-&gt; Coherence
+
+<ul>
+<li>-&gt; Ease of understanding
+
+<ul>
+<li><ul>
+<li>many other aspects, what?</li>
+</ul>
+
+<ul>
+<li>-&gt; playability</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>Machine readability
+
+<ul>
+<li>-&gt; autotestability
+
+<ul>
+<li><ul>
+<li>understanding of autotesting</li>
+</ul>
+
+<ul>
+<li>-&gt; better understanding of rules
+
+<ul>
+<li>-&gt; better rules
+
+<ul>
+<li>-&gt; better game (one can hope)</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li>probably too much of a burden, but still maybe of some help</li>
+</ul></li>
+</ul></li>
+</ul>
+
+<h3 id="yaml">YAML</h3>
+
+<p>YAML is my current favorite for this, as it is natural enough
+(minimum syntactic noise) for expressing ideas on a somewhat high level,
+and the schema of such an ad hoc document can be deduced thereof.</p>
+
+<h2 id="simulator">simulator</h2>
+
+<p>A tool for trying out the rules without producing physical objects.</p>
+
+<h3 id="todo">TODO</h3>
+
+<ul>
+<li>fix map to diamond shape so that it better resembles map of a planet surface,
+with considerably more width than height, but still have single-hex poles.</li>
+<li>add ability to move tiles between bags so we can have mixed contents
+
+<ul>
+<li>manually by dragging and dropping (ad-hoc)</li>
+<li>programmatically by specifying amounts to move between sets of bags</li>
+<li>by rules (once and if machine readable)</li>
+</ul></li>
+<li>view counts of tiles of different colors separately in each bag</li>
+<li>units for players</li>
+<li>move player units on map</li>
+<li>draw map according to hard-coded rules as player units move</li>
+<li>draw map according to specified rules as player units move</li>
+<li>optional remote sync between game instances so we can test while we chat</li>
+<li>separate players</li>
+<li>card decks to draw from</li>
+<li>card effects changing the game</li>
+<li>save game history for later analysis</li>
+<li>replay game history for later analysis</li>
+<li>rewind/fast forward game history</li>
+</ul>
+
+<h2 id="carddevelopment">card development</h2>
+
+<p>We&#8217;ll have at least a tech tree (of technical/scientific/social advancements).</p>
+
+<ul>
+<li>game goals are advancement cards describing a game end (winning) condition.</li>
+</ul>
+
+<p>We&#8217;ll probably have also</p>
+
+<ul>
+<li>unit property cards that enabling techs allow to build onto unit type boards</li>
+<li>opportunity cards drawn from deck(s) to player hands and played
+
+<ul>
+<li>on unit property cards to modify their properties or behavior (culture)</li>
+<li>as one-time actions to change the outcome of specific game situations (spy)</li>
+</ul></li>
+</ul>
+
+<p>Opportunity cards would represent</p>
+
+<ul>
+<li>revelations on the planet
+
+<ul>
+<li>when you move onto a tile marked as a revelation point
+
+<ul>
+<li>these should be somewhat frequent to motivate exploration</li>
+</ul></li>
+<li>drawn from separate revelation deck(s)</li>
+</ul></li>
+<li>the resourcefulness of your people
+
+<ul>
+<li>you might be able to draw as many cards per turn as you have unit types
+
+<ul>
+<li>here unit types represent different ways of thinking in your civilization</li>
+</ul></li>
+<li>game developments might add sets to the cards in your personal deck</li>
+</ul></li>
+</ul>
+
+<p>Cards of different types and for alternative rulesets should be specified
+in their own YAML files.</p>
+
+<p>They should have properties described so that we can analyse
+or even try them out in the simulator somehow.</p>
+
+<h2 id="balance">balance</h2>
+
+<p>The main game should be against the board.</p>
+
+<p>The board should react to players&#8217; units, especially production/extraction of
+resources, by adverse effects such as pollution, eventually leading to
+catastrophes and environmental change.</p>
+
+<p>The beginning main goal is to survive threat of the crumbling environment by
+building another generation ship to return to space.
+Other goals such as an environmental balance
+may prove easier to reach during some games.</p>
+
+<p>We should develop a good balance here</p>
+
+<ul>
+<li>from the beginning with only a few units with few or no special properties</li>
+<li>as the civilications develop, the challenges should get worse</li>
+</ul>
