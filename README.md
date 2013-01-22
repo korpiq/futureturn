@@ -11,6 +11,7 @@ Here in this distributed version control thingy we develop a computer simulation
 of the game in order to try and find out what works and what does not.
 
 An immediately playable web page is available here at source/js/index.html
+and sometimes updated at http://kato.iki.fi/hexmap/
 
 We may also choose to write our rules here in some simple syntax. Time may tell.
 
