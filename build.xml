@@ -1,5 +1,9 @@
-<project name="futureturn" default="nothing-yet">
-    <target name="nothing-yet">
-      <echo>Would you like to write some tests?</echo>
+<project name="futureturn" default="compile-docs">
+    <target name="compile-docs"
+            description="compile multimarkdown documents to html pages">
+        <exec executable="bash" dir="source/doc">
+            <arg value="-c" />
+            <arg value="multimarkdown -b *.md" />
+        </exec>
     </target>
 </project>

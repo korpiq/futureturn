@@ -43,10 +43,13 @@ simulator
 
 A tool for trying out the rules without producing physical objects.
 
-### TODO
+### done
 
 * fix map to diamond shape so that it better resembles map of a planet surface,
     with considerably more width than height, but still have single-hex poles.
+
+### TODO
+
 * add ability to move tiles between bags so we can have mixed contents
     * manually by dragging and dropping (ad-hoc)
     * programmatically by specifying amounts to move between sets of bags
