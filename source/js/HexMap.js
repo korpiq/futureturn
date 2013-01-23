@@ -179,17 +179,6 @@ HexMap.prototype =
             {
                 currentHexTileBag.getTile().put(this);
             }
-            /*
-            currentColor = currentHexTileBag.color;
-            if (this.style.backgroundColor === currentColor)
-            {
-                this.style.backgroundColor = '';
-            }
-            else
-            {
-                this.style.backgroundColor = currentColor;
-            }
-            */
             this.highlight();
         },
         add: function (tile)
