@@ -66,6 +66,10 @@ HexMap.prototype =
     {
         this.size = new HexMapSize(ns, nwse, nesw);
     },
+    getCenterHex: function()
+    {
+        return this.hexes[Math.floor(this.hexes.length/2)];
+    },
     draw: function()
     {
         this.clear();

@@ -34,15 +34,15 @@
             displayContainer: document.getElementById("hexmap_display")
         });
 
-    ns = parseInt(document.getElementById("ns").value);
-    nwse = parseInt(document.getElementById("nwse").value);
-    nesw = parseInt(document.getElementById("nesw").value);
+    var sides = parseInt(document.getElementById("sides").value);
+    var equator = parseInt(document.getElementById("equator").value);
 
-    hexmap.setSizes(ns, nwse, nesw);
+    hexmap.setSizes(equator, sides, sides);
     hexmap.draw();
 
     report();
     createTileBags();
+    currentHexTileBag.getTile().put(hexmap.getCenterHex());
   }
 
   function createTileBags()
@@ -83,20 +83,16 @@
 
   function setPlayers(value)
   {
-      value = 3 + parseInt(value);
-      document.getElementById("ns").value = value;
-      setSides(value);
-  }
-
-  function setSides(value)
-  {
-      document.getElementById("nwse").value = value;
-      document.getElementById("nesw").value = value;
+      var players = parseInt(value);
+      var equatorHeight = players % 2 + 2;
+      var sideLength = players + 6;
+      document.getElementById("sides").value = sideLength;
+      document.getElementById("equator").value = equatorHeight;
       draw_by_form();
   }
  </script>
 </head>
-<body onload="draw_by_form()">
+<body onload="setPlayers(document.getElementById('players').value)">
 
  <div id="hexmap_display">&nbsp;</div>
 
@@ -104,9 +100,8 @@
   tile types: <input id="types" value="6" onchange="draw_by_form()"><br/>
   players: <input id="players" value="3" onchange="setPlayers(this.value)"><br/>
   edge lengths:<br/>
-  sides: <input id="ns" value="6" onchange="setSides(this.value)"><br/>
-  nw+se: <input id="nwse" value="6" onchange="setSides(this.value)"><br/>
-  ne+sw: <input id="nesw" value="6" onchange="draw_by_form()"><br/>
+  sides: <input id="sides" value="9" onchange="draw_by_form()"><br/>
+  equator: <input id="equator" value="3" onchange="draw_by_form()"><br/>
   hexes: <span id="hexes"></span><br/>
   per player: <span id="hexes_per_player"></span><br/>
   per type: <span id="hexes_per_type"></span><br/>
