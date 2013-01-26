@@ -1,0 +1,19 @@
+# what different tile types there are in the game
+
+- name: sea
+  material: water
+
+- name: river
+  material: water
+
+- name: lowland
+  material: terrain
+
+- name: plain
+  material: terrain
+
+- name: highland
+  material: terrain
+
+- name: mountain
+  material: terrain

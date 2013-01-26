@@ -1,0 +1,17 @@
+# bag mixing rules describe steps to take to mix bag contents properly
+
+- from: river
+  to: each bag for terrain material
+  one tile of every: 5
+- from: each bag for terrain material
+  to: bag for next higher terrain
+  one tile of every: 5
+- from: each bag for terrain material
+  to: bag for next lower terrain
+  one tile of every: 5
+- from: sea
+  to: mountain
+  one tile of every: 10
+- from: lowland
+  to: sea
+  one tile of every: 10

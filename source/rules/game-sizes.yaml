@@ -1,0 +1,33 @@
+# sides = 6 + players; equator = 2 on even, 3 on odd sides
+players:    [  1,  2,  3,  4,  5,  6,  7,  8,  9 ]
+sides:      [  7,  8,  9, 10, 11, 12, 13, 14, 15 ]
+equator:    [  3,  2,  3,  2,  3,  2,  3,  2,  3 ]
+hexes:      [ 75, 79,115,119,163,167,219,223,283 ]
+hex/player: [ 75, 39, 38, 29, 32, 27, 31, 27, 31 ]
+tiles/bag:  [ ]
+
+# sides = 6 + players; equator = 2 on even, 1 on odd sides
+players:    [  1,  2,  3,  4,  5,  6,  7,  8,  9 ]
+sides:      [  7,  8,  9, 10, 11, 12, 13, 14, 15 ]
+equator:    [  1,  2,  1,  2,  1,  2,  1,  2,  1 ]
+hexes:      [ 49, 79, 81,119,121,167,169,223,225 ]
+hex/player: [ 49, 39, 27, 29, 24, 27, 24, 27, 31 ]
+tiles/bag:  [  9, 14, 14, 20, 21, 28, 29, 38, 38 ]
+
+# sides = 6 + players; equator = 2 on even, 1 on odd sides
+# except 1 and 5 players to even out starting places
+players:    [  1,  2,  3,  4,  5,  6,  7,  8,  9 ]
+sides:      [  5,  8,  9, 10, 11, 12, 13, 14, 15 ]
+equator:    [  2,  2,  1,  2,  2,  2,  3,  2,  1 ]
+hexes:      [ 34, 79, 81,119,142,167,219,223,225 ]
+hex/player: [ 34, 39, 27, 29, 28, 27, 31, 27, 25 ]
+tiles/bag:  [  6, 14, 14, 20, 24, 28, 37, 38, 38 ]
+
+# sides = 6 + players except 5 on 1 player; equator = 2
+# starting point south of player 1 on odd players to even out starting places
+players:    [  1,  2,  3,  4,  5,  6,  7,  8,  9 ]
+sides:      [  5,  8,  9, 10, 11, 12, 13, 14, 15 ]
+equator:    [  2,  2,  2,  2,  2,  2,  2,  2,  2 ]
+hexes:      [ 34, 79, 98,119,142,167,194,223,254 ]
+hex/player: [ 34, 39, 32, 29, 28, 27, 27, 27, 28 ]
+tiles/bag:  [  6, 14, 17, 20, 24, 28, 33, 38, 43 ]

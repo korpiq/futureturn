@@ -1,4 +1,5 @@
 <project name="futureturn" default="compile-docs">
+
     <target name="compile-docs"
             description="compile multimarkdown documents to html pages">
         <exec executable="bash" dir="source/doc">
@@ -6,4 +7,12 @@
             <arg value="multimarkdown -b *.md" />
         </exec>
     </target>
+
+    <target name="install-yamljs" description="install YAML library for javascript">
+        <exec executable="npm">
+            <arg value="install" />
+            <arg value="yamljs" />
+        </exec>
+    </target>
+
 </project>
