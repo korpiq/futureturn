@@ -84,10 +84,19 @@
   function setPlayers(value)
   {
       var players = parseInt(value);
-      var equatorHeight = players % 2 + 2;
-      var sideLength = players + 6;
-      document.getElementById("sides").value = sideLength;
-      document.getElementById("equator").value = equatorHeight;
+      setSides(6 + players);
+      draw_by_form();
+  }
+
+  function setSides(value)
+  {
+      document.getElementById("sides").value = value;
+
+      var multiplier =
+          parseInt(document.getElementById("equator_multiplier").value);
+      document.getElementById("equator").value =
+          2 + multiplier * parseInt(value) % 2;
+
       draw_by_form();
   }
  </script>
@@ -100,8 +109,14 @@
   tile types: <input id="types" value="6" onchange="draw_by_form()"><br/>
   players: <input id="players" value="3" onchange="setPlayers(this.value)"><br/>
   edge lengths:<br/>
-  sides: <input id="sides" value="9" onchange="draw_by_form()"><br/>
-  equator: <input id="equator" value="3" onchange="draw_by_form()"><br/>
+  sides: <input id="sides" value="9" onchange="setSides(this.value)"><br/>
+  equator: <input id="equator" value="1" onchange="draw_by_form()"><br/>
+  equator range:
+  <select id="equator_multiplier">
+      <option value="-1">1-2</option>
+      <option value="0" selected>2</option>
+      <option value="1">2-3</option>
+  </select><br/>
   hexes: <span id="hexes"></span><br/>
   per player: <span id="hexes_per_player"></span><br/>
   per type: <span id="hexes_per_type"></span><br/>
