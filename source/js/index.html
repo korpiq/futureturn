@@ -1,116 +1,116 @@
 <html>
 <head>
  <style>
-   div.hex {
-     position: absolute;
-     border: 1px solid black;
-     background-color: white;
-     height: 2em;
-     width: 2em;
-     text-align: center;
-   }
-   #hexmap_display {
-       position: fixed;
-       right: 0;
-       width: 70%;
-       height: 100%;
-   }
-   input {
-       width: 3em
-   }
+    div.hex {
+      position: absolute;
+      border: 1px solid black;
+      background-color: white;
+      height: 2em;
+      width: 2em;
+      text-align: center;
+    }
+    #hexmap_display {
+        position: fixed;
+        right: 0;
+        width: 70%;
+        height: 100%;
+    }
+    input {
+        width: 3em
+    }
  </style>
  <script type="text/javascript" language="javascript" src="HexTile.js"></script>
  <script type="text/javascript" language="javascript" src="HexMap.js"></script>
  <script type="text/javascript" language="javascript" src="HexTileBag.js"></script>
  <script language="javascript">
-  var
-    hexmap,
-    tilebags,
-    currentHexTileBag,
-    hexesPerType
-    ;
+    var
+      hexmap,
+      tilebags,
+      currentHexTileBag,
+      hexesPerType
+      ;
 
-  function drawMapFromInput()
-  {
-    if(! hexmap)
-        hexmap = new HexMap({
-            displayContainer: document.getElementById("hexmap_display")
-        });
+    function drawMapFromInput()
+    {
+      if(! hexmap)
+          hexmap = new HexMap({
+              displayContainer: document.getElementById("hexmap_display")
+          });
 
-    var sides = getIntInput("sides");
-    var equator = getIntInput("equator");
+      var sides = getIntInput("sides");
+      var equator = getIntInput("equator");
 
-    hexmap.setSizes(equator, sides, sides);
-    hexmap.draw();
+      hexmap.setSizes(equator, sides, sides);
+      hexmap.draw();
 
-    report();
-    createTileBags();
-    currentHexTileBag.getTile().put(hexmap.getCenterHex());
-  }
+      report();
+      createTileBags();
+      currentHexTileBag.getTile().put(hexmap.getCenterHex());
+    }
 
-  function createTileBags()
-  {
-      if(tilebags && tilebags.length > 0)
-      {
-          for(var i=0; i < tilebags.length; ++i)
-          {
-              document.body.removeChild(tilebags[i].element);
-          }
-      }
-      tilebags = [];
-      var count = parseInt(document.getElementById('types').value);
+    function createTileBags()
+    {
+        if(tilebags && tilebags.length > 0)
+        {
+            for(var i=0; i < tilebags.length; ++i)
+            {
+                document.body.removeChild(tilebags[i].element);
+            }
+        }
+        tilebags = [];
+        var count = parseInt(document.getElementById('types').value);
 
-      for(var i=1; i <= count; ++i)
-      {
-          tilebags.push(new HexTileBag(i, count, hexesPerType));
-      }
-      currentHexTileBag = tilebags[Math.floor(count/2 - 0.5)];
-      currentHexTileBag.element.click();
-  }
+        for(var i=1; i <= count; ++i)
+        {
+            tilebags.push(new HexTileBag(i, count, hexesPerType));
+        }
+        currentHexTileBag = tilebags[Math.floor(count/2 - 0.5)];
+        currentHexTileBag.element.click();
+    }
 
-  function report()
-  {
-    hexes = hexmap.hexes.length;
-    num_players = getIntInput("players");
-    num_types = getIntInput("types");
+    function report()
+    {
+      hexes = hexmap.hexes.length;
+      num_players = getIntInput("players");
+      num_types = getIntInput("types");
 
-    setText("hexes", hexes);
-    setText("hexes_per_player", Math.floor(hexes / num_players));
-    setText("hexes_per_type", hexesPerType = Math.ceil(hexes / num_types));
-  }
+      setText("hexes", hexes);
+      setText("hexes_per_player", Math.floor(hexes / num_players));
+      setText("hexes_per_type", hexesPerType = Math.ceil(hexes / num_types));
+    }
 
-  function setText(id, content)
-  {
-      document.getElementById(id).textContent = content;
-  }
+    function setText(id, content)
+    {
+        document.getElementById(id).textContent = content;
+    }
 
-  function setPlayers(value)
-  {
-      var players = parseInt(value);
-      setSides(6 + players);
-  }
+    function setPlayers(value)
+    {
+        var players = parseInt(value);
+        setSides(6 + players);
+    }
 
-  function setSides(value)
-  {
-      setInput("sides", value);
-      updateEquator();
-  }
-  function updateEquator()
-  {
-      var sideOddity = getIntInput("sides") % 2;
-      var multiplier = getIntInput("equator_multiplier");
-      setInput("equator", 2 + multiplier * sideOddity);
+    function setSides(value)
+    {
+        setInput("sides", value);
+        updateEquator();
+    }
+    function updateEquator()
+    {
+        var sideOddity = getIntInput("sides") % 2;
+        var multiplier = getIntInput("equator_multiplier");
+        setInput("equator", 2 + multiplier * sideOddity);
 
-      drawMapFromInput();
-  }
-  function getIntInput(name)
-  {
-      return parseInt(document.getElementById(name).value);
-  }
-  function setInput(name, value)
-  {
-      document.getElementById(name).value = value;
-  }
+        drawMapFromInput();
+    }
+    function getIntInput(name)
+    {
+        return parseInt(document.getElementById(name).value);
+    }
+    function setInput(name, value)
+    {
+        document.getElementById(name).value = value;
+    }
  </script>
 </head>
 <body onload="setPlayers(document.getElementById('players').value)">
