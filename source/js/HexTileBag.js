@@ -1,8 +1,8 @@
-function HexTileBag(number, totalNumberOfHexTileBags, tilesInBag)
+function HexTileBag(number, totalNumberOfHexTileBags, tilesInBag, containerElement)
 {
     this.number = number;
     this.color = this.decideColor(number, totalNumberOfHexTileBags);
-    this.element = this.createElement();
+    this.element = this.createElement(containerElement);
     this.tiles = [];
     for(var i=0; i < tilesInBag; ++i)
     {
@@ -43,7 +43,7 @@ HexTileBag.prototype = {
         this.tiles[tile.color].push(tile);
         this.viewTileAmounts();
     },
-    createElement: function ()
+    createElement: function (containerElement)
     {
         var element = document.createElement('div');
         element.style.position = 'fixed';
@@ -63,7 +63,7 @@ HexTileBag.prototype = {
             this.style.color = 'white';
         }
         element.textContent = this.number;
-        document.body.appendChild(element);
+        containerElement.appendChild(element);
         return element;
     },
     decideColor: function(number, totalNumberOfHexTileBags)

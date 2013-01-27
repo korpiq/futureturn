@@ -18,6 +18,13 @@
     input {
         width: 3em
     }
+    #form_container {
+        width: 15em;
+        text-align: right;
+    }
+    #bags_container {
+        background-color: lightgray;
+    }
  </style>
  <script type="text/javascript" language="javascript" src="HexTile.js"></script>
  <script type="text/javascript" language="javascript" src="HexMap.js"></script>
@@ -50,11 +57,13 @@
 
     function createTileBags()
     {
+        var bagsContainer = document.getElementById('bags_container');
+
         if(tilebags && tilebags.length > 0)
         {
             for(var i=0; i < tilebags.length; ++i)
             {
-                document.body.removeChild(tilebags[i].element);
+                bagsContainer.removeChild(tilebags[i].element);
             }
         }
         tilebags = [];
@@ -62,7 +71,7 @@
 
         for(var i=1; i <= count; ++i)
         {
-            tilebags.push(new HexTileBag(i, count, hexesPerType));
+            tilebags.push(new HexTileBag(i, count, hexesPerType, bagsContainer));
         }
         currentHexTileBag = tilebags[Math.floor(count/2 - 0.5)];
         currentHexTileBag.element.click();
@@ -117,6 +126,7 @@
 
  <div id="hexmap_display">&nbsp;</div>
 
+ <div id="form_container">
  <form id="hexmap_settings" onsubmit="drawMapFromInput(); return false;">
   tile types: <input id="types" value="6" onchange="drawMapFromInput()"><br/>
   players: <input id="players" value="3" onchange="setPlayers(this.value)"><br/>
@@ -133,6 +143,9 @@
   per player: <span id="hexes_per_player"></span><br/>
   per type: <span id="hexes_per_type"></span><br/>
  </form>
+ </div>
 
+ <div id="bags_container">
+ </div>
 </body>
 </html>
