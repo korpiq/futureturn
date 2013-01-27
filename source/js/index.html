@@ -15,6 +15,9 @@
        width: 70%;
        height: 100%;
    }
+   input {
+       width: 3em
+   }
  </style>
  <script type="text/javascript" language="javascript" src="HexTile.js"></script>
  <script type="text/javascript" language="javascript" src="HexMap.js"></script>
@@ -27,15 +30,15 @@
     hexesPerType
     ;
 
-  function draw_by_form()
+  function drawMapFromInput()
   {
     if(! hexmap)
         hexmap = new HexMap({
             displayContainer: document.getElementById("hexmap_display")
         });
 
-    var sides = parseInt(document.getElementById("sides").value);
-    var equator = parseInt(document.getElementById("equator").value);
+    var sides = getIntInput("sides");
+    var equator = getIntInput("equator");
 
     hexmap.setSizes(equator, sides, sides);
     hexmap.draw();
@@ -68,8 +71,8 @@
   function report()
   {
     hexes = hexmap.hexes.length;
-    num_players = parseInt(document.getElementById("players").value);
-    num_types = parseInt(document.getElementById("types").value);
+    num_players = getIntInput("players");
+    num_types = getIntInput("types");
 
     setText("hexes", hexes);
     setText("hexes_per_player", Math.floor(hexes / num_players));
@@ -85,19 +88,28 @@
   {
       var players = parseInt(value);
       setSides(6 + players);
-      draw_by_form();
   }
 
   function setSides(value)
   {
-      document.getElementById("sides").value = value;
+      setInput("sides", value);
+      updateEquator();
+  }
+  function updateEquator()
+  {
+      var sideOddity = getIntInput("sides") % 2;
+      var multiplier = getIntInput("equator_multiplier");
+      setInput("equator", 2 + multiplier * sideOddity);
 
-      var multiplier =
-          parseInt(document.getElementById("equator_multiplier").value);
-      document.getElementById("equator").value =
-          2 + multiplier * parseInt(value) % 2;
-
-      draw_by_form();
+      drawMapFromInput();
+  }
+  function getIntInput(name)
+  {
+      return parseInt(document.getElementById(name).value);
+  }
+  function setInput(name, value)
+  {
+      document.getElementById(name).value = value;
   }
  </script>
 </head>
@@ -105,14 +117,14 @@
 
  <div id="hexmap_display">&nbsp;</div>
 
- <form id="hexmap_settings" onsubmit="draw_by_form(); return false;">
-  tile types: <input id="types" value="6" onchange="draw_by_form()"><br/>
+ <form id="hexmap_settings" onsubmit="drawMapFromInput(); return false;">
+  tile types: <input id="types" value="6" onchange="drawMapFromInput()"><br/>
   players: <input id="players" value="3" onchange="setPlayers(this.value)"><br/>
   edge lengths:<br/>
   sides: <input id="sides" value="9" onchange="setSides(this.value)"><br/>
-  equator: <input id="equator" value="1" onchange="draw_by_form()"><br/>
+  equator: <input id="equator" value="1" onchange="drawMapFromInput()"><br/>
   equator range:
-  <select id="equator_multiplier">
+  <select id="equator_multiplier" onchange="setSides(document.getElementById('sides').value)">
       <option value="-1">1-2</option>
       <option value="0" selected>2</option>
       <option value="1">2-3</option>
