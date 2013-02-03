@@ -1,0 +1,27 @@
+{
+  "name": "futureturn",
+  "version": "0.0.0",
+  "description": "Board game about populating a terraformed planet to find a way to return to space.",
+  "main": "source/js/server/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/korpiq/futureturn.git"
+  },
+  "keywords": [
+    "board",
+    "game"
+  ],
+  "author": "Kalle Hallivuori",
+  "license": "Attribution-ShareAlike 3.0 Unported",
+  "readmeFilename": "README.md",
+  "gitHead": "69c4854657297c81ba179078b4dbd9b7545aedf3",
+  "dependencies": {
+    "yamljs": "~0.1.4"
+  }
+}
