@@ -5,4 +5,5 @@ var rules = {
     'gameSizes': yamlParser.load('./source/rules/game-sizes.yaml'),
     'bagMixing': yamlParser.load('./source/rules/bag-mixing.yaml')
 };
-console.log(rules);
+var fs = require('fs');
+fs.writeFileSync('./source/js/rules.json', JSON.stringify(rules, null, 2));
