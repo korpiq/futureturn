@@ -4,8 +4,7 @@ artifact: first to enter gets an artifact card
 
 fruitful: food
 
-spring: starts a river to an open direction,
-  preferably toward edge
+spring: starts a river to an open direction, preferably toward edge
 
 forest: wood for building or energy
 
