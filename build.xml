@@ -1,6 +1,11 @@
-<project name="futureturn" default="compile-docs">
+<project name="futureturn" default="all">
 
-    <target name="compile-docs"
+    <target name="all"
+        depends="docs,compile"
+        description="compile documents to html and rules for simulator"
+    />
+
+    <target name="docs"
             description="compile multimarkdown documents to html pages">
         <exec executable="bash" dir="source/doc">
             <arg value="-c" />
@@ -8,11 +13,36 @@
         </exec>
     </target>
 
-    <target name="install-yamljs" description="install YAML library for javascript">
-        <exec executable="npm">
-            <arg value="install" />
-            <arg value="yamljs" />
+    <target name="compile"
+        depends="deps"
+        description="turn rules from YAML files into javascript for client">
+        <exec executable="node" dir="source/compiler">
+            <arg value="compile.js" />
         </exec>
     </target>
 
+    <target name="deps" description="install required libraries">
+        <exec executable="npm">
+            <arg value="install" />
+        </exec>
+    </target>
+
+    <target name="publish"
+        depends="compile"
+        description="new version to github and simulator to public website"
+    >
+        <exec executable="git" failonerror="true">
+            <arg line="pull origin master" />
+        </exec>
+        <exec executable="git" failonerror="true">
+            <arg line="push origin master" />
+        </exec>
+        <exec executable="scp" failonerror="true">
+            <arg value="-r" />
+            <arg value="source/simulator/." />
+            <arg value="kapsi.fi:sites/kato.iki.fi/www/hexmap/." />
+        </exec>
+    </target>
+
+    <target name="pub" depends="publish" description="shortcut for publish" />
 </project>

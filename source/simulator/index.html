@@ -25,16 +25,22 @@
     #bags_container {
         background-color: lightgray;
     }
+    #rules_frame {
+        height: 0;
+        width: 0;
+    }
  </style>
  <script type="text/javascript" language="javascript" src="HexTile.js"></script>
  <script type="text/javascript" language="javascript" src="HexMap.js"></script>
  <script type="text/javascript" language="javascript" src="HexTileBag.js"></script>
+ <script type="text/javascript" language="javascript" src="rules.js"></script>
  <script language="javascript">
     var
       hexmap,
       tilebags,
       currentHexTileBag,
-      hexesPerType
+      hexesPerType,
+      rules
       ;
 
     function drawMapFromInput()
@@ -119,6 +125,15 @@
     function setInput(name, value)
     {
         document.getElementById(name).value = value;
+    }
+    function loadRules()
+    {
+        var client = new XMLHttpRequest();
+        client.open('GET', 'rules.json');
+        client.onreadystatechange = function () {
+            rules = JSON.parse(client.responseText);
+        };
+        client.send();
     }
  </script>
 </head>
