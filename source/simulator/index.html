@@ -59,6 +59,7 @@
       report();
       createTileBags();
       currentHexTileBag.getTile().put(hexmap.getCenterHex());
+      mixTilesBetweenBags();
     }
 
     function createTileBags()
@@ -135,6 +136,37 @@
         };
         client.send();
     }
+    function mixTilesBetweenBags()
+    {
+        mixNonRiverTilesToNeighborBags();
+        mixRiverTilesToTerrainBags();
+    }
+    function mixRiverTilesToTerrainBags()
+    {
+        var riverTilebagId = getIntInput('river_id') - 1;
+        for(var i = riverTilebagId + 1; i < tilebags.length; ++i)
+        {
+            var countToMove = getIntInput('rivers2terrain_bags');
+            while(countToMove--)
+                tilebags[riverTilebagId].getTile().put(tilebags[i]);
+        }
+    }
+    function mixNonRiverTilesToNeighborBags()
+    {
+        // FIXME: move from sea to river but from lowlands to sea?
+        // FIXME: do not move from sea to mountain?
+        var riverTilebagId = getIntInput('river_id') - 1;
+        for(var i = 0; i < tilebags.length; i += i==riverTilebagId ? 2 : 1)
+        {
+            var countToMove = getIntInput('tiles2neighbor_bags');
+            var target = (i + (i+1==riverTilebagId ? 2 : 1)) % tilebags.length;
+            while(countToMove--)
+            {
+                tilebags[i].getTile().put(tilebags[target]);
+                tilebags[target].getTile().put(tilebags[i]);
+            }
+        }
+    }
  </script>
 </head>
 <body onload="setPlayers(document.getElementById('players').value)">
@@ -145,6 +177,7 @@
  <form id="hexmap_settings" onsubmit="drawMapFromInput(); return false;">
   tile types: <input id="types" value="6" onchange="drawMapFromInput()"><br/>
   players: <input id="players" value="3" onchange="setPlayers(this.value)"><br/>
+  <hr/>
   edge lengths:<br/>
   sides: <input id="sides" value="9" onchange="setSides(this.value)"><br/>
   equator: <input id="equator" value="1" onchange="drawMapFromInput()"><br/>
@@ -154,6 +187,10 @@
       <option value="0" selected>2</option>
       <option value="1">2-3</option>
   </select><br/>
+  <hr/>
+  river bag number: <input id="river_id" value="2" /><br/>
+  rivers to terrain bags: <input id="rivers2terrain_bags" value="2" /><br/>
+  others to neighbor bags: <input id="tiles2neighbor_bags" value="2" /><br/>
   hexes: <span id="hexes"></span><br/>
   per player: <span id="hexes_per_player"></span><br/>
   per type: <span id="hexes_per_type"></span><br/>

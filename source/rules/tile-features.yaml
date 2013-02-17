@@ -4,7 +4,10 @@ artifact: first to enter gets an artifact card
 
 fruitful: food
 
-spring: starts a river to an open direction, preferably toward edge
+# spring: starts a river to an open direction, preferably toward edge
+# Bad idea. This would lead to springs leading to dry ground in places
+# explored after surrounding ground.
+# It is more clear to stick to all tiles independent of surroundings.
 
 forest: wood for building or energy
 
