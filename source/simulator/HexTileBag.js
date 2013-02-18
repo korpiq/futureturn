@@ -49,14 +49,13 @@ HexTileBag.prototype = {
     {
         var element = document.createElement('div');
         element.style.position = 'fixed';
-        element.style.left = (this.number * 2) + 'em';
-        element.style.width = '2em';
-        element.style.height = '5em';
+        element.style.left = ((this.number - 1) * 4) + 'em';
+        element.style.width = '4em';
+        element.style.height = '10em';
         element.style.backgroundColor = this.color;
         element.style.textAlign = 'center';
         element.style.verticalAlign = 'middle';
         element.style.color = 'lightgray';
-        element.style.fontSize = '2em';
         element.style.padding = '0';
         element.style.margin = '0';
         element.hexTileBag = this;
@@ -66,9 +65,7 @@ HexTileBag.prototype = {
             currentHexTileBag = this.hexTileBag;
             this.style.color = 'white';
         }
-        element.textContent = this.number;
         var nameElement = document.createElement('div');
-        nameElement.style.fontSize = '0.5em';
         nameElement.textContent = this.name;
         element.appendChild(nameElement);
         containerElement.appendChild(element);
@@ -116,13 +113,15 @@ HexTileBag.prototype = {
         if (! this.amountElements[color])
         {
             this.amountElements[color] =
-                this.createAmountElement(color, '0.3em')
+                this.createAmountElement(color)
         }
         return this.amountElements[color];
     },
     createTotalAmountElement: function()
     {
-        return this.createAmountElement(this.color, '0.5em');
+        var totalAmountElement = this.createAmountElement(this.color);
+        totalAmountElement.style.fontWeight = 'bold';
+        return totalAmountElement;
     },
     createAmountElement: function(backgroundColor, size)
     {
@@ -130,8 +129,6 @@ HexTileBag.prototype = {
         element.style.backgroundColor = backgroundColor;
         element.style.textAlign = 'center';
         element.style.verticalAlign = 'middle';
-        element.style.color = 'white';
-        element.style.fontSize = size;
         element.style.padding = '0.1em';
         element.style.margin = '0.1em';
         element.textContent = '0';
