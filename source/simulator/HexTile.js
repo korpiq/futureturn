@@ -12,5 +12,9 @@ HexTile.prototype =
         this.location.remove(this);
         this.location = newLocation;
         this.location.add(this);
+    },
+    getTypeName: function ()
+    {
+        return this.bag.name;
     }
 }

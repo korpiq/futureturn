@@ -1,9 +1,11 @@
-function HexTileBag(number, totalNumberOfHexTileBags, tilesInBag, containerElement)
+function HexTileBag(name, number, totalNumberOfHexTileBags, tilesInBag, containerElement)
 {
+    this.name = name;
     this.number = number;
     this.color = this.decideColor(number, totalNumberOfHexTileBags);
     this.element = this.createElement(containerElement);
     this.tiles = [];
+    this.amountElements = [];
     for(var i=0; i < tilesInBag; ++i)
     {
         this.createTile();
@@ -47,14 +49,16 @@ HexTileBag.prototype = {
     {
         var element = document.createElement('div');
         element.style.position = 'fixed';
-        element.style.left = (this.number * 1.2) + 'em';
+        element.style.left = (this.number * 2) + 'em';
+        element.style.width = '2em';
+        element.style.height = '5em';
         element.style.backgroundColor = this.color;
         element.style.textAlign = 'center';
         element.style.verticalAlign = 'middle';
         element.style.color = 'lightgray';
         element.style.fontSize = '2em';
-        element.style.padding = '0.2em';
-        element.style.margin = '0.2em';
+        element.style.padding = '0';
+        element.style.margin = '0';
         element.hexTileBag = this;
         element.onclick = function ()
         {
@@ -63,6 +67,10 @@ HexTileBag.prototype = {
             this.style.color = 'white';
         }
         element.textContent = this.number;
+        var nameElement = document.createElement('div');
+        nameElement.style.fontSize = '0.5em';
+        nameElement.textContent = this.name;
+        element.appendChild(nameElement);
         containerElement.appendChild(element);
         return element;
     },
@@ -97,15 +105,33 @@ HexTileBag.prototype = {
             this.totalAmountElement = this.createTotalAmountElement();
         }
         this.totalAmountElement.textContent = this.getTotalNumberOfTiles();
+        for(var color in this.tiles)
+        {
+            var amountElement = this.getAmountElement(color);
+            amountElement.textContent = this.tiles[color].length;
+        }
+    },
+    getAmountElement: function(color)
+    {
+        if (! this.amountElements[color])
+        {
+            this.amountElements[color] =
+                this.createAmountElement(color, '0.3em')
+        }
+        return this.amountElements[color];
     },
     createTotalAmountElement: function()
     {
+        return this.createAmountElement(this.color, '0.5em');
+    },
+    createAmountElement: function(backgroundColor, size)
+    {
         var element = document.createElement('div');
-        element.style.backgroundColor = this.color;
+        element.style.backgroundColor = backgroundColor;
         element.style.textAlign = 'center';
         element.style.verticalAlign = 'middle';
         element.style.color = 'white';
-        element.style.fontSize = '0.5em';
+        element.style.fontSize = size;
         element.style.padding = '0.1em';
         element.style.margin = '0.1em';
         element.textContent = '0';

@@ -59,7 +59,6 @@ var rules = {
     "fish": "food",
     "artifact": "first to enter gets an artifact card",
     "fruitful": "food",
-    "spring": "starts a river to an open direction, preferably toward edge",
     "forest": "wood for building or energy",
     "ore": "metal for building",
     "peak": "better visibility to space",

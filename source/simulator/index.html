@@ -32,6 +32,7 @@
  </style>
  <script type="text/javascript" language="javascript" src="HexTile.js"></script>
  <script type="text/javascript" language="javascript" src="HexMap.js"></script>
+ <script type="text/javascript" language="javascript" src="HexTilePile.js"></script>
  <script type="text/javascript" language="javascript" src="HexTileBag.js"></script>
  <script type="text/javascript" language="javascript" src="rules.js"></script>
  <script language="javascript">
@@ -58,8 +59,6 @@
 
       report();
       createTileBags();
-      currentHexTileBag.getTile().put(hexmap.getCenterHex());
-      mixTilesBetweenBags();
     }
 
     function createTileBags()
@@ -76,12 +75,15 @@
         tilebags = [];
         var count = parseInt(document.getElementById('types').value);
 
-        for(var i=1; i <= count; ++i)
+        for(var i=0; i < count; ++i)
         {
-            tilebags.push(new HexTileBag(i, count, hexesPerType, bagsContainer));
+            var name = rules.tileTypes[i] ? rules.tileTypes[i].name : i;
+            tilebags.push(new HexTileBag(name, i+1, count, hexesPerType, bagsContainer));
         }
-        currentHexTileBag = tilebags[Math.floor(count/2 - 0.5)];
+        currentHexTileBag = tilebags[Math.floor(count/2 + 0.5)];
         currentHexTileBag.element.click();
+        // decide starting type later currentHexTileBag.getTile().put(hexmap.getCenterHex());
+        mixTilesBetweenBags();
     }
 
     function report()
@@ -156,16 +158,31 @@
         // FIXME: move from sea to river but from lowlands to sea?
         // FIXME: do not move from sea to mountain?
         var riverTilebagId = getIntInput('river_id') - 1;
-        for(var i = 0; i < tilebags.length; i += i==riverTilebagId ? 2 : 1)
+        var tilesForBags = getListOfEmptyPilesForEachTilebag();
+        for(var i = 0; i < tilebags.length; i += nextIsRiver ? 2 : 1)
         {
+            var nextIsRiver = (i+1) == riverTilebagId;
             var countToMove = getIntInput('tiles2neighbor_bags');
-            var target = (i + (i+1==riverTilebagId ? 2 : 1)) % tilebags.length;
+            var target = (i + ( nextIsRiver ? 2 : 1 )) % tilebags.length;
             while(countToMove--)
             {
-                tilebags[i].getTile().put(tilebags[target]);
-                tilebags[target].getTile().put(tilebags[i]);
+                tilebags[i].getTile().put(tilesForBags[target]);
+                tilebags[target].getTile().put(tilesForBags[i]);
             }
         }
+        for(var i = 0; i < tilesForBags.length; ++i)
+        {
+            tilesForBags[i].putAll(tilebags[i]);
+        }
+    }
+    function getListOfEmptyPilesForEachTilebag()
+    {
+        var piles = [];
+        while(piles.length < tilebags.length)
+        {
+            piles.push(new HexTilePile(tilebags[piles.length].name));
+        }
+        return piles;
     }
  </script>
 </head>
@@ -188,9 +205,9 @@
       <option value="1">2-3</option>
   </select><br/>
   <hr/>
-  river bag number: <input id="river_id" value="2" /><br/>
-  rivers to terrain bags: <input id="rivers2terrain_bags" value="2" /><br/>
-  others to neighbor bags: <input id="tiles2neighbor_bags" value="2" /><br/>
+  river bag number: <input id="river_id" value="2" onchange="createTileBags()" /><br/>
+  rivers to terrain bags: <input id="rivers2terrain_bags" value="2" onchange="createTileBags()" /><br/>
+  others to neighbor bags: <input id="tiles2neighbor_bags" value="2" onchange="createTileBags()" /><br/>
   hexes: <span id="hexes"></span><br/>
   per player: <span id="hexes_per_player"></span><br/>
   per type: <span id="hexes_per_type"></span><br/>
