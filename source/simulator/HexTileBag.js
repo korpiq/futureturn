@@ -34,12 +34,12 @@ HexTileBag.prototype = {
                 return tile;
             }
         }
-        throw "Tried to remove tile from bag that does not contain it";
+        throw "Tried to remove tile from bag '" + this.name + "' that does not contain it";
     },
     add: function(tile)
     {
         if (!tile.color)
-            throw "Tried to add something colorless into bag";
+            throw "Tried to add something colorless into bag '" + this.name + "'";
         if (!this.tiles[tile.color])
             this.tiles[tile.color] = [];
         this.tiles[tile.color].push(tile);
@@ -163,6 +163,6 @@ HexTileBag.prototype = {
                 return this.tiles[color][it];
             }
         }
-        throw "getTile from bag without tiles";
+        throw "getTile from bag '" + this.name + "' without tiles";
     }
 };
