@@ -61,15 +61,21 @@ HexTileBag.prototype = {
         element.hexTileBag = this;
         element.onclick = function ()
         {
-            currentHexTileBag.element.style.color = 'lightgray';
-            currentHexTileBag = this.hexTileBag;
-            this.style.color = 'white';
+            getGame().setCurrentBag(this.hexTileBag);
         }
         var nameElement = document.createElement('div');
         nameElement.textContent = this.name;
         element.appendChild(nameElement);
         containerElement.appendChild(element);
         return element;
+    },
+    becomeCurrent: function ()
+    {
+        this.element.style.color = 'white';
+    },
+    becomeNonCurrent: function ()
+    {
+        this.element.style.color = 'lightgray';
     },
     decideColor: function(number, totalNumberOfHexTileBags)
     {

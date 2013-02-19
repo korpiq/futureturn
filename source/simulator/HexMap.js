@@ -181,7 +181,7 @@ HexMap.prototype =
             }
             else
             {
-                currentHexTileBag.getTile().put(this);
+                getGame().putTileFromCurrentBagTo(this);
             }
             this.highlight();
         },

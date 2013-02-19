@@ -38,9 +38,7 @@
  <script type="text/javascript" language="javascript" src="rules.js"></script>
  <script language="javascript">
     var
-      hexmap,
       tilebags,
-      currentHexTileBag,
       hexesPerType,
       rules,
       game
@@ -53,7 +51,6 @@
             var mapContainer = document.getElementById("hexmap_display");
             var bagsContainer = document.getElementById('bags_container');
             game = new Game(mapContainer, bagsContainer, setInput, getIntInput);
-            hexmap = game.hexmap;
             tilebags = game.tilebags;
         }
         return game;
@@ -70,7 +67,7 @@
 
     function report()
     {
-      hexes = hexmap.hexes.length;
+      hexes = getGame().hexmap.hexes.length;
       num_players = getIntInput("players");
       num_types = getIntInput("types");
 

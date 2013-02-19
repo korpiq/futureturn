@@ -56,9 +56,19 @@ Game.prototype =
             var name = rules.tileTypes[i] ? rules.tileTypes[i].name : i;
             this.tilebags.push(new HexTileBag(name, i+1, count, hexesPerType, this.bagsContainer));
         }
-        currentHexTileBag = this.tilebags[Math.floor(count/2 + 0.5)];
-        currentHexTileBag.element.click();
-        // decide starting type later currentHexTileBag.getTile().put(hexmap.getCenterHex());
+        this.setCurrentBag(this.tilebags[Math.floor(count/2 + 0.5)]);
+        // decide starting type later currentBag.getTile().put(hexmap.getCenterHex());
         mixTilesBetweenBags();
+    },
+    setCurrentBag: function (bag)
+    {
+        if (this.currentBag)
+            this.currentBag.becomeNonCurrent();
+        this.currentBag = bag;
+        bag.becomeCurrent();
+    },
+    putTileFromCurrentBagTo: function (target)
+    {
+        this.currentBag.getTile().put(target);
     }
 }
