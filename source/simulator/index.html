@@ -34,6 +34,7 @@
  <script type="text/javascript" language="javascript" src="HexMap.js"></script>
  <script type="text/javascript" language="javascript" src="HexTilePile.js"></script>
  <script type="text/javascript" language="javascript" src="HexTileBag.js"></script>
+ <script type="text/javascript" language="javascript" src="Game.js"></script>
  <script type="text/javascript" language="javascript" src="rules.js"></script>
  <script language="javascript">
     var
@@ -41,49 +42,30 @@
       tilebags,
       currentHexTileBag,
       hexesPerType,
-      rules
+      rules,
+      game
       ;
 
+    function getGame()
+    {
+        if (! game)
+        {
+            var mapContainer = document.getElementById("hexmap_display");
+            var bagsContainer = document.getElementById('bags_container');
+            game = new Game(mapContainer, bagsContainer, setInput, getIntInput);
+            hexmap = game.hexmap;
+            tilebags = game.tilebags;
+        }
+        return game;
+    }
     function drawMapFromInput()
     {
-      if(! hexmap)
-          hexmap = new HexMap({
-              displayContainer: document.getElementById("hexmap_display")
-          });
-
-      var sides = getIntInput("sides");
-      var equator = getIntInput("equator");
-
-      hexmap.setSizes(equator, sides, sides);
-      hexmap.draw();
-
-      report();
-      updateMixes();
+        return getGame().drawMapFromInput();
     }
 
     function createTileBags()
     {
-        var bagsContainer = document.getElementById('bags_container');
-
-        if(tilebags && tilebags.length > 0)
-        {
-            for(var i=0; i < tilebags.length; ++i)
-            {
-                bagsContainer.removeChild(tilebags[i].element);
-            }
-        }
-        tilebags = [];
-        var count = parseInt(document.getElementById('types').value);
-
-        for(var i=0; i < count; ++i)
-        {
-            var name = rules.tileTypes[i] ? rules.tileTypes[i].name : i;
-            tilebags.push(new HexTileBag(name, i+1, count, hexesPerType, bagsContainer));
-        }
-        currentHexTileBag = tilebags[Math.floor(count/2 + 0.5)];
-        currentHexTileBag.element.click();
-        // decide starting type later currentHexTileBag.getTile().put(hexmap.getCenterHex());
-        mixTilesBetweenBags();
+        return getGame().createTileBags();
     }
 
     function report()
@@ -104,17 +86,16 @@
 
     function setPlayers(value)
     {
-        var players = parseInt(value);
-        setSides(6 + players);
+        return getGame().setPlayers(value);
     }
 
     function setSides(value)
     {
-        setInput("sides", value);
-        updateEquator();
+        return getGame().setSides(value);
     }
     function updateEquator()
     {
+        return getGame().updateEquator();
         var sideOddity = getIntInput("sides") % 2;
         var multiplier = getIntInput("equator_multiplier");
         setInput("equator", 2 + multiplier * sideOddity);
@@ -129,20 +110,15 @@
     }
     function getIntInput(name)
     {
-        return parseInt(document.getElementById(name).value);
+        var value = document.getElementById(name).value;
+        var intVal = parseInt(value);
+        if (! (intVal >= 0 || intVal < 0))
+            throw "Value of '" + name + "' not numeric: '" + value + "'";
+        return intVal;
     }
     function setInput(name, value)
     {
         document.getElementById(name).value = value;
-    }
-    function loadRules()
-    {
-        var client = new XMLHttpRequest();
-        client.open('GET', 'rules.json');
-        client.onreadystatechange = function () {
-            rules = JSON.parse(client.responseText);
-        };
-        client.send();
     }
     function mixTilesBetweenBags()
     {
@@ -209,22 +185,30 @@
         }
         return piles;
     }
+    function updatePlayers()
+    {
+        getGame().setPlayers(document.getElementById('players').value)
+    }
+    function updateSides()
+    {
+        getGame().setSides(document.getElementById('sides').value)
+    }
  </script>
 </head>
-<body onload="setPlayers(document.getElementById('players').value)">
+<body onload="updatePlayers()">
 
  <div id="hexmap_display">&nbsp;</div>
 
  <div id="form_container">
  <form id="hexmap_settings" onsubmit="drawMapFromInput(); return false;">
   tile types: <input id="types" value="6" onchange="drawMapFromInput()"><br/>
-  players: <input id="players" value="3" onchange="setPlayers(this.value)"><br/>
+  players: <input id="players" value="3" onchange="updatePlayers()"><br/>
   <hr/>
   edge lengths:<br/>
-  sides: <input id="sides" value="9" onchange="setSides(this.value)"><br/>
+  sides: <input id="sides" value="9" onchange="updateSides()"><br/>
   equator: <input id="equator" value="1" onchange="drawMapFromInput()"><br/>
   equator range:
-  <select id="equator_multiplier" onchange="setSides(document.getElementById('sides').value)">
+  <select id="equator_multiplier" onchange="updateSides()">
       <option value="-1">1-2</option>
       <option value="0" selected>2</option>
       <option value="1">2-3</option>
