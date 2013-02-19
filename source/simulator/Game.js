@@ -58,7 +58,6 @@ Game.prototype =
         }
         this.setCurrentBag(this.tilebags[Math.floor(count/2 + 0.5)]);
         // decide starting type later currentBag.getTile().put(hexmap.getCenterHex());
-        mixTilesBetweenBags();
     },
     setCurrentBag: function (bag)
     {

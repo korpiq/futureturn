@@ -35,22 +35,32 @@
  <script type="text/javascript" language="javascript" src="HexTilePile.js"></script>
  <script type="text/javascript" language="javascript" src="HexTileBag.js"></script>
  <script type="text/javascript" language="javascript" src="Game.js"></script>
+ <script type="text/javascript" language="javascript" src="GameBuilder.js"></script>
  <script type="text/javascript" language="javascript" src="rules.js"></script>
  <script language="javascript">
     var
       tilebags,
       hexesPerType,
       rules,
+      builder,
       game
       ;
 
+    function getGameBuilder()
+    {
+        if (! builder)
+        {
+            var mapContainer = document.getElementById("hexmap_display");
+            var bagsContainer = document.getElementById('bags_container');
+            builder = new GameBuilder(mapContainer, bagsContainer, setInput, getIntInput);
+        }
+        return builder;
+    }
     function getGame()
     {
         if (! game)
         {
-            var mapContainer = document.getElementById("hexmap_display");
-            var bagsContainer = document.getElementById('bags_container');
-            game = new Game(mapContainer, bagsContainer, setInput, getIntInput);
+            game = getGameBuilder().build();
             tilebags = game.tilebags;
         }
         return game;
@@ -62,7 +72,7 @@
 
     function createTileBags()
     {
-        return getGame().createTileBags();
+        game = getGameBuilder().build();
     }
 
     function report()
@@ -93,17 +103,12 @@
     function updateEquator()
     {
         return getGame().updateEquator();
-        var sideOddity = getIntInput("sides") % 2;
-        var multiplier = getIntInput("equator_multiplier");
-        setInput("equator", 2 + multiplier * sideOddity);
-
-        drawMapFromInput();
     }
     function updateMixes()
     {
         setInput('rivers2terrain_bags', Math.round(hexesPerType / 5));
         setInput('tiles2neighbor_bags', Math.round(hexesPerType / 5));
-        createTileBags();
+        getGame().createTileBags();
     }
     function getIntInput(name)
     {
@@ -116,71 +121,6 @@
     function setInput(name, value)
     {
         document.getElementById(name).value = value;
-    }
-    function mixTilesBetweenBags()
-    {
-        var tilesForBags = getListOfEmptyPilesForEachTilebag();
-        mixNonRiverTilesToNeighborBags(tilesForBags);
-        mixRiverTilesToTerrainBags(tilesForBags);
-        addSeaTilesToRiverBag(tilesForBags);
-        putTilesFromPilesToBags(tilesForBags);
-    }
-    function mixRiverTilesToTerrainBags(tilesForBags)
-    {
-        var riverTilebagId = getIntInput('river_id') - 1;
-        for(var i = riverTilebagId + 1; i < tilebags.length; ++i)
-        {
-            var countToMove = getIntInput('rivers2terrain_bags');
-            while(countToMove--)
-                tilebags[riverTilebagId].getTile().put(tilesForBags[i]);
-        }
-    }
-    function mixNonRiverTilesToNeighborBags(tilesForBags)
-    {
-        // FIXME: move from sea to river but from lowlands to sea?
-        // FIXME: do not move from sea to mountain?
-        for(var i = 0; i < tilebags.length; i = next)
-        {
-            var next = i + (isRiver(i+1) ? 2 : 1);
-            var countToMove = getIntInput('tiles2neighbor_bags');
-            var target = next % tilebags.length;
-            while(countToMove--)
-            {
-                // from current bag to next
-                tilebags[i].getTile().put(tilesForBags[target]);
-                // from next bag to current
-                tilebags[target].getTile().put(tilesForBags[i]);
-            }
-        }
-    }
-    function addSeaTilesToRiverBag(tilesForBags)
-    {
-        var riverTilebagId = getIntInput('river_id') - 1;
-        var countToMove = getIntInput('tiles2neighbor_bags');
-        while(countToMove--)
-        {
-            tilebags[0].getTile().put(tilesForBags[riverTilebagId]);
-        }
-    }
-    function isRiver(bagNumber)
-    {
-        return bagNumber == getIntInput('river_id') - 1;
-    }
-    function putTilesFromPilesToBags(tilesForBags)
-    {
-        for(var i = 0; i < tilesForBags.length; ++i)
-        {
-            tilesForBags[i].putAll(tilebags[i]);
-        }
-    }
-    function getListOfEmptyPilesForEachTilebag()
-    {
-        var piles = [];
-        while(piles.length < tilebags.length)
-        {
-            piles.push(new HexTilePile(tilebags[piles.length].name));
-        }
-        return piles;
     }
     function updatePlayers()
     {
