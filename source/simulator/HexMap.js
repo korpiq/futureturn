@@ -11,6 +11,7 @@ HexMapSize.prototype =
     ns: 3,
     nwse: 3,
     nesw: 3,
+    count: 0,
 
     getMinSide: function()
     {
@@ -36,6 +37,22 @@ HexMapSize.prototype =
                 : row1 < this.getMaxSide() ? this.getMinSide() - 1
                 : this.getHeight() - row1
             );
+    },
+    getHexCount: function()
+    {
+        if (!this.count)
+        {
+            var row = this.getHeight();
+            while(row--)
+            {
+                this.count += this.getLengthForRow(row);
+            }
+        }
+        return this.count;
+    },
+    countHexesPerType: function (numberOfTypes)
+    {
+        return Math.ceil(this.getHexCount() / numberOfTypes);
     }
 };
 
@@ -45,11 +62,11 @@ HexMapSize.prototype =
 function HexMap(args)
 {
     this.displayContainer = document.body;
-    this.hexes = [];
     if(args)
     {
         this.set(args);
     }
+    this.clear();
 }
 
 HexMap.prototype =
@@ -106,10 +123,9 @@ HexMap.prototype =
     },
     clear: function()
     {
-        for(var i=0; i < this.hexes.length; ++i)
-        {
-            this.displayContainer.removeChild(this.hexes[i]);
-        }
+        var container = this.displayContainer;
+        while(container.firstElementChild)
+            container.removeChild(container.firstElementChild);
         this.hexes = [];
     },
     set: function(properties)

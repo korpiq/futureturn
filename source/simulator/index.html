@@ -38,77 +38,47 @@
  <script type="text/javascript" language="javascript" src="GameBuilder.js"></script>
  <script type="text/javascript" language="javascript" src="rules.js"></script>
  <script language="javascript">
-    var
-      tilebags,
-      hexesPerType,
-      rules,
-      builder,
-      game
-      ;
+    var game;
 
+    function restartGame()
+    {
+        if (game)
+            game.clear();
+        game = null;
+        return getGame();
+    }
     function getGameBuilder()
     {
-        if (! builder)
-        {
-            var mapContainer = document.getElementById("hexmap_display");
-            var bagsContainer = document.getElementById('bags_container');
-            builder = new GameBuilder(mapContainer, bagsContainer, setInput, getIntInput);
-        }
-        return builder;
+        var mapContainer = document.getElementById("hexmap_display");
+        var bagsContainer = document.getElementById('bags_container');
+        return new GameBuilder(mapContainer, bagsContainer, setInput, getIntInput);
     }
     function getGame()
     {
         if (! game)
         {
             game = getGameBuilder().build();
-            tilebags = game.tilebags;
+            report();
         }
         return game;
     }
-    function drawMapFromInput()
-    {
-        return getGame().drawMapFromInput();
-    }
-
-    function createTileBags()
-    {
-        game = getGameBuilder().build();
-    }
-
     function report()
     {
-      hexes = getGame().hexmap.hexes.length;
+      hexes = getGame().hexmap.size.getHexCount();
       num_players = getIntInput("players");
-      num_types = getIntInput("types");
 
       setText("hexes", hexes);
       setText("hexes_per_player", Math.floor(hexes / num_players));
-      setText("hexes_per_type", hexesPerType = Math.ceil(hexes / num_types));
+      setText("hexes_per_type", countHexesPerType());
     }
 
     function setText(id, content)
     {
         document.getElementById(id).textContent = content;
     }
-
-    function setPlayers(value)
+    function setInput(name, value)
     {
-        return getGame().setPlayers(value);
-    }
-
-    function setSides(value)
-    {
-        return getGame().setSides(value);
-    }
-    function updateEquator()
-    {
-        return getGame().updateEquator();
-    }
-    function updateMixes()
-    {
-        setInput('rivers2terrain_bags', Math.round(hexesPerType / 5));
-        setInput('tiles2neighbor_bags', Math.round(hexesPerType / 5));
-        getGame().createTileBags();
+        document.getElementById(name).value = value;
     }
     function getIntInput(name)
     {
@@ -118,42 +88,59 @@
             throw "Value of '" + name + "' not numeric: '" + value + "'";
         return intVal;
     }
-    function setInput(name, value)
-    {
-        document.getElementById(name).value = value;
-    }
-    function updatePlayers()
-    {
-        getGame().setPlayers(document.getElementById('players').value)
-    }
+
     function updateSides()
     {
-        getGame().setSides(document.getElementById('sides').value)
+        var players = getIntInput('players');
+        setInput('sides', 6 + players);
+        updateEquator();
+    }
+    function updateEquator()
+    {
+        var sideOddity = getIntInput("sides") % 2;
+        var multiplier = getIntInput("equator_multiplier");
+        setInput("equator", 2 + multiplier * sideOddity);
+        updateMixes();
+    }
+    function updateMixes()
+    {
+        var numberOfTilesToMix = Math.floor(countHexesPerType() / 5);
+        setInput('rivers2terrain_bags', numberOfTilesToMix);
+        setInput('tiles2neighbor_bags', numberOfTilesToMix);
+        restartGame();
+    }
+    function countHexesPerType()
+    {
+        return new HexMapSize(
+            getIntInput("equator"),
+            getIntInput("sides"),
+            getIntInput("sides")
+        ).countHexesPerType(getIntInput('types'));
     }
  </script>
 </head>
-<body onload="updatePlayers()">
+<body onload="updateSides()">
 
  <div id="hexmap_display">&nbsp;</div>
 
  <div id="form_container">
- <form id="hexmap_settings" onsubmit="drawMapFromInput(); return false;">
-  tile types: <input id="types" value="6" onchange="drawMapFromInput()"><br/>
-  players: <input id="players" value="3" onchange="updatePlayers()"><br/>
+ <form id="hexmap_settings" onsubmit="restartGame(); return false;">
+  tile types: <input id="types" value="6" onchange="restartGame()"><br/>
+  players: <input id="players" value="3" onchange="updateSides()"><br/>
   <hr/>
   edge lengths:<br/>
-  sides: <input id="sides" value="9" onchange="updateSides()"><br/>
-  equator: <input id="equator" value="1" onchange="drawMapFromInput()"><br/>
+  sides: <input id="sides" value="9" onchange="updateEquator()"><br/>
+  equator: <input id="equator" value="1" onchange="updateMixes()"><br/>
   equator range:
-  <select id="equator_multiplier" onchange="updateSides()">
+  <select id="equator_multiplier" onchange="updateEquator()">
       <option value="-1">1-2</option>
       <option value="0" selected>2</option>
       <option value="1">2-3</option>
   </select><br/>
   <hr/>
-  river bag number: <input id="river_id" value="2" onchange="createTileBags()" /><br/>
-  rivers to terrain bags: <input id="rivers2terrain_bags" value="3" onchange="createTileBags()" /><br/>
-  others to neighbor bags: <input id="tiles2neighbor_bags" value="3" onchange="createTileBags()" /><br/>
+  river bag number: <input id="river_id" value="2" onchange="restartGame()" /><br/>
+  rivers to terrain bags: <input id="rivers2terrain_bags" value="3" onchange="restartGame()" /><br/>
+  others to neighbor bags: <input id="tiles2neighbor_bags" value="3" onchange="restartGame()" /><br/>
   hexes: <span id="hexes"></span><br/>
   per player: <span id="hexes_per_player"></span><br/>
   per type: <span id="hexes_per_type"></span><br/>

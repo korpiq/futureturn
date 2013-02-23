@@ -1,55 +1,28 @@
-function Game(mapContainer, bagsContainer, setInput, getIntInput)
+function Game(hexmap, bagsContainer, setInput, getIntInput)
 {
-    this.mapContainer = mapContainer;
+    this.hexmap = hexmap;
     this.bagsContainer = bagsContainer;
     this.setInput = setInput;
     this.getIntInput = getIntInput;
 
     this.tilebags = [];
-    this.hexmap = new HexMap({
-        displayContainer: this.mapContainer
-    });
 }
 
 Game.prototype =
 {
-    setPlayers: function (players)
-    {
-        this.players = parseInt(players);
-        this.setSides(6 + this.players);
-    },
-    setSides: function (value)
-    {
-        this.setInput("sides", value);
-        this.updateEquator();
-    },
-    updateEquator: function ()
-    {
-        var sideOddity = this.getIntInput("sides") % 2;
-        var multiplier = this.getIntInput("equator_multiplier");
-        this.setInput("equator", 2 + multiplier * sideOddity);
-
-        this.drawMapFromInput();
-    },
     drawMapFromInput: function ()
     {
-      var sides = this.getIntInput("sides");
-      var equator = this.getIntInput("equator");
+        var sides = this.getIntInput("sides");
+        var equator = this.getIntInput("equator");
 
-      this.hexmap.setSizes(equator, sides, sides);
-      this.hexmap.draw();
-
-      report();
-      updateMixes();
+        this.hexmap.setSizes(equator, sides, sides);
+        this.hexmap.draw();
     },
     createTileBags: function ()
     {
-        while(this.tilebags.length)
-        {
-            var removeBag = this.tilebags.shift();
-            this.bagsContainer.removeChild(removeBag.element);
-        }
-        var count = parseInt(document.getElementById('types').value);
+        this.removeTileBags();
+        var count = this.getIntInput('types');
+        var hexesPerType = this.hexmap.size.countHexesPerType(count);
 
         for(var i=0; i < count; ++i)
         {
@@ -69,5 +42,19 @@ Game.prototype =
     putTileFromCurrentBagTo: function (target)
     {
         this.currentBag.getTile().put(target);
+    },
+    removeTileBags: function ()
+    {
+        while(this.tilebags.length)
+        {
+            var removeBag = this.tilebags.shift();
+            this.bagsContainer.removeChild(removeBag.element);
+        }
+    },
+    clear: function ()
+    {
+        if (this.hexes)
+            this.hexes.clear();
+        this.removeTileBags();
     }
 }
