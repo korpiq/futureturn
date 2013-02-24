@@ -1,22 +1,20 @@
-function GameBuilder(mapContainer, bagsContainer, setInput, getIntInput)
+function GameBuilder(mapContainer, bagsContainer)
 {
-    this.setInput = setInput;
-    this.getIntIntput = getIntInput;
-    var hexmapSize = this.createHexMapSize(
-        getIntInput("equator"),
-        getIntInput("sides")
-    );
-
-    this.game = new Game(
-        this.createHexMap(mapContainer, hexmapSize),
-        bagsContainer,
-        setInput,
-        getIntInput
-    );
+    new PropertySetter(this);
+    this.mapContainer = mapContainer;
+    this.bagsContainer = bagsContainer;
 }
 
-GameBuilder.prototype =
+GameBuilder.prototype = new PropertySetter().extend(
 {
+    types: 0,
+    players: 0,
+    sides: 0,
+    equator: 0,
+    riverBagNumber: 0,
+    mixRivers2terrainBags: 0,
+    mixTiles2neighborBags: 0,
+
     createHexMapSize: function(equator, sides)
     {
         return new HexMapSize(equator, sides, sides);
@@ -30,10 +28,25 @@ GameBuilder.prototype =
     },
     build: function ()
     {
-        this.riverTileBagId = getIntInput('river_id') - 1;
+        var hexmapSize = this.createHexMapSize(
+            this.equator,
+            this.sides
+        );
+        var hexmap = this.createHexMap(this.mapContainer, hexmapSize);
+
+        this.game = new Game(
+            hexmap,
+            this.bagsContainer,
+            this.setInput,
+            this.getIntInput
+        );
+        this.game.set({
+            types: this.types
+        });
+
         this.game.createTileBags();
         this.mixTilesBetweenBags();
-        this.game.drawMapFromInput();
+        this.game.start();
         return this.game;
     },
     mixTilesBetweenBags: function ()
@@ -47,11 +60,11 @@ GameBuilder.prototype =
     mixRiverTilesToTerrainBags: function ()
     {
         var tilebags = this.game.tilebags;
-        var riverbag = tilebags[this.riverTileBagId];
-        for(var i = this.riverTileBagId + 1; i < tilebags.length; ++i)
+        var riverbag = tilebags[this.riverBagNumber];
+        for(var i = this.riverBagNumber + 1; i < tilebags.length; ++i)
         {
             var countToMove = Math.min(
-                getIntInput('rivers2terrain_bags'),
+                this.rivers2terrainBags,
                 riverbag.getTotalNumberOfTiles()
             );
             while(countToMove--)
@@ -68,7 +81,7 @@ GameBuilder.prototype =
         {
             var next = i + (this.isRiver(i+1) ? 2 : 1);
             var target = next % tilebags.length;
-            var countToMove = getIntInput('tiles2neighbor_bags');
+            var countToMove = this.mixTiles2neighborBags;
             while(countToMove--)
             {
                 tilebags[i].getTile().put(this.tilesForBags[target]);
@@ -79,15 +92,15 @@ GameBuilder.prototype =
     addSeaTilesToRiverBag: function ()
     {
         var tilebags = this.game.tilebags;
-        var countToMove = getIntInput('tiles2neighbor_bags');
+        var countToMove = this.mixTiles2neighborBags;
         while(countToMove--)
         {
-            tilebags[0].getTile().put(this.tilesForBags[this.riverTileBagId]);
+            tilebags[0].getTile().put(this.tilesForBags[this.riverBagNumber]);
         }
     },
     isRiver: function (bagNumber)
     {
-        return bagNumber == this.riverTileBagId;
+        return bagNumber == this.riverBagNumber;
     },
     putTilesFromPilesToBags: function ()
     {
@@ -107,4 +120,4 @@ GameBuilder.prototype =
         }
         return piles;
     }
-}
+});

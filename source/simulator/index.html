@@ -30,6 +30,7 @@
         width: 0;
     }
  </style>
+ <script type="text/javascript" language="javascript" src="PropertySetter.js"></script>
  <script type="text/javascript" language="javascript" src="HexTile.js"></script>
  <script type="text/javascript" language="javascript" src="HexMap.js"></script>
  <script type="text/javascript" language="javascript" src="HexTilePile.js"></script>
@@ -57,21 +58,36 @@
     {
         if (! game)
         {
-            game = getGameBuilder().build();
+            game = getGameBuilder()
+                .set(getFormValuesForGameBuilder())
+                .build();
             report();
         }
         return game;
     }
     function report()
     {
-      hexes = getGame().hexmap.size.getHexCount();
-      num_players = getIntInput("players");
+        var mapSize = getGame().hexmap.size;
+        var hexes = mapSize.getHexCount();
+        var num_players = getIntInput("players");
 
-      setText("hexes", hexes);
-      setText("hexes_per_player", Math.floor(hexes / num_players));
-      setText("hexes_per_type", countHexesPerType());
+        setText("hexes", hexes);
+        setText("hexes_per_player", Math.floor(hexes / num_players));
+        setText("hexes_per_type", countHexesPerType());
     }
 
+    function getFormValuesForGameBuilder()
+    {
+        return {
+            types: getIntInput('types'),
+            players: getIntInput('players'),
+            sides: getIntInput('sides'),
+            equator: getIntInput('equator'),
+            riverBagNumber: getIntInput('river_id') - 1,
+            mixRivers2terrainBags: getIntInput('rivers2terrain_bags'),
+            mixTiles2neighborBags: getIntInput('tiles2neighbor_bags')
+        };
+    }
     function setText(id, content)
     {
         document.getElementById(id).textContent = content;

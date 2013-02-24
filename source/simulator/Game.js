@@ -1,27 +1,23 @@
-function Game(hexmap, bagsContainer, setInput, getIntInput)
+function Game(hexmap, bagsContainer)
 {
     this.hexmap = hexmap;
     this.bagsContainer = bagsContainer;
-    this.setInput = setInput;
-    this.getIntInput = getIntInput;
 
     this.tilebags = [];
 }
 
-Game.prototype =
+Game.prototype = new PropertySetter().extend(
 {
-    drawMapFromInput: function ()
-    {
-        var sides = this.getIntInput("sides");
-        var equator = this.getIntInput("equator");
+    types: 0,
 
-        this.hexmap.setSizes(equator, sides, sides);
+    start: function ()
+    {
         this.hexmap.draw();
     },
     createTileBags: function ()
     {
         this.removeTileBags();
-        var count = this.getIntInput('types');
+        var count = this.types;
         var hexesPerType = this.hexmap.size.countHexesPerType(count);
 
         for(var i=0; i < count; ++i)
@@ -57,4 +53,4 @@ Game.prototype =
             this.hexes.clear();
         this.removeTileBags();
     }
-}
+});
