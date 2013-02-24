@@ -1,6 +1,5 @@
 function GameBuilder(mapContainer, bagsContainer)
 {
-    new PropertySetter(this);
     this.mapContainer = mapContainer;
     this.bagsContainer = bagsContainer;
 }
@@ -15,6 +14,30 @@ GameBuilder.prototype = new PropertySetter().extend(
     mixRivers2terrainBags: 0,
     mixTiles2neighborBags: 0,
 
+    build: function ()
+    {
+        var hexmapSize = this.createHexMapSize(
+            this.equator,
+            this.sides
+        );
+        var hexmap = this.createHexMap(this.mapContainer, hexmapSize);
+        tilebags = this.createTileBags(this.types, hexmapSize.countHexesPerType(this.types));
+
+        this.game = new Game(
+            hexmap,
+            tilebags,
+            this.setInput,
+            this.getIntInput
+        );
+        this.game.set({
+            types: this.types
+        });
+
+        this.mixTilesBetweenBags();
+        this.game.start();
+        return this.game;
+    },
+
     createHexMapSize: function(equator, sides)
     {
         return new HexMapSize(equator, sides, sides);
@@ -26,29 +49,24 @@ GameBuilder.prototype = new PropertySetter().extend(
             size: size
         });
     },
-    build: function ()
+    createTileBags: function (numberOfTypes, hexesPerType)
     {
-        var hexmapSize = this.createHexMapSize(
-            this.equator,
-            this.sides
-        );
-        var hexmap = this.createHexMap(this.mapContainer, hexmapSize);
-
-        this.game = new Game(
-            hexmap,
-            this.bagsContainer,
-            this.setInput,
-            this.getIntInput
-        );
-        this.game.set({
-            types: this.types
-        });
-
-        this.game.createTileBags();
-        this.mixTilesBetweenBags();
-        this.game.start();
-        return this.game;
+        var tilebags = [];
+        
+        for(var i=0; i < numberOfTypes; ++i)
+        {
+            var name = rules.tileTypes[i] ? rules.tileTypes[i].name : i;
+            tilebags.push(new HexTileBag(
+                name,
+                i+1,
+                numberOfTypes,
+                hexesPerType,
+                this.bagsContainer
+            ));
+        }
+        return tilebags;
     },
+
     mixTilesBetweenBags: function ()
     {
         this.tilesForBags = this.getListOfEmptyPilesForEachTilebag();

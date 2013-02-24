@@ -1,9 +1,7 @@
-function Game(hexmap, bagsContainer)
+function Game(hexmap, tilebags)
 {
     this.hexmap = hexmap;
-    this.bagsContainer = bagsContainer;
-
-    this.tilebags = [];
+    this.tilebags = tilebags;
 }
 
 Game.prototype = new PropertySetter().extend(
@@ -12,21 +10,8 @@ Game.prototype = new PropertySetter().extend(
 
     start: function ()
     {
+        this.setCurrentBag(this.tilebags[Math.floor(this.tilebags.length/2 + 0.5)]);
         this.hexmap.draw();
-    },
-    createTileBags: function ()
-    {
-        this.removeTileBags();
-        var count = this.types;
-        var hexesPerType = this.hexmap.size.countHexesPerType(count);
-
-        for(var i=0; i < count; ++i)
-        {
-            var name = rules.tileTypes[i] ? rules.tileTypes[i].name : i;
-            this.tilebags.push(new HexTileBag(name, i+1, count, hexesPerType, this.bagsContainer));
-        }
-        this.setCurrentBag(this.tilebags[Math.floor(count/2 + 0.5)]);
-        // decide starting type later currentBag.getTile().put(hexmap.getCenterHex());
     },
     setCurrentBag: function (bag)
     {
@@ -43,8 +28,7 @@ Game.prototype = new PropertySetter().extend(
     {
         while(this.tilebags.length)
         {
-            var removeBag = this.tilebags.shift();
-            this.bagsContainer.removeChild(removeBag.element);
+            this.tilebags.shift().element.remove();
         }
     },
     clear: function ()
