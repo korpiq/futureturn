@@ -69,7 +69,7 @@ function HexMap(args)
     this.clear();
 }
 
-HexMap.prototype =
+HexMap.prototype = new PropertySetter().extend(
 {
     displayContainer: document.body,
     size: new HexMapSize(3,3,3),
@@ -110,9 +110,7 @@ HexMap.prototype =
         hex.className = "hex";
         this.hexes[this.hexes.length] = hex;
         hex.textContent = this.hexes.length;
-        hex.set = this.set;
-        hex.set(this.hexElementProperties);
-        return hex;
+        return this.extend.call(hex, this.hexElementProperties);
     },
     viewHexAt: function(hex, ns_edge_column, nwse_edge_row)
     {
@@ -127,10 +125,6 @@ HexMap.prototype =
         while(container.firstElementChild)
             container.removeChild(container.firstElementChild);
         this.hexes = [];
-    },
-    set: function(properties)
-    {
-        for(var key in properties) this[key] = properties[key];
     },
 
     hexElementProperties: {
@@ -220,4 +214,4 @@ HexMap.prototype =
             this.style.backgroundColor = '';
         }
     }
-};
+});
