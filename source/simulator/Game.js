@@ -1,11 +1,12 @@
-function Game(hexmap, tilebags)
+function Game(properties)
 {
-    this.hexmap = hexmap;
-    this.tilebags = tilebags;
+    this.set(properties);
 }
 
 Game.prototype = new PropertySetter().extend(
 {
+    hexmap: {},
+    tilebags: {},
     types: 0,
 
     start: function ()

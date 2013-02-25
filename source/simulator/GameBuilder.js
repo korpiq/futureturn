@@ -21,15 +21,12 @@ GameBuilder.prototype = new PropertySetter().extend(
             this.sides
         );
         var hexmap = this.createHexMap(this.mapContainer, hexmapSize);
-        tilebags = this.createTileBags(this.types, hexmapSize.countHexesPerType(this.types));
+        var hexesPerType = hexmapSize.countHexesPerType(this.types);
+        var tilebags = this.createTileBags(this.types, hexesPerType);
 
-        this.game = new Game(
-            hexmap,
-            tilebags,
-            this.setInput,
-            this.getIntInput
-        );
-        this.game.set({
+        this.game = new Game({
+            hexmap: hexmap,
+            tilebags: tilebags,
             types: this.types
         });
 
