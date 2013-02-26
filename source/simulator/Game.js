@@ -13,6 +13,16 @@ Game.prototype = new PropertySetter().extend(
     {
         this.setCurrentBag(this.tilebags[Math.floor(this.tilebags.length/2 + 0.5)]);
         this.hexmap.draw();
+        var centerHex = this.hexmap.getCenterHex();
+        var startTile = this.currentBag.createTile();
+        startTile.put(centerHex);
+        var directions = this.hexmap.directions;
+        for(var direction in this.hexmap.directions)
+        {
+            var d = directions[direction];
+            var neighbor = centerHex.getNeighbor(d[0], d[1]);
+            this.currentBag.getTile().put(neighbor);
+        }
     },
     setCurrentBag: function (bag)
     {

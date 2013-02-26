@@ -27,7 +27,7 @@ HexMapSize.prototype =
     },
     getIndentForRow: function(row)
     {
-        return (++row < this.nwse ? this.nwse - row : row - this.nwse) / 2;
+        return (++row < this.nwse ? this.nwse - row : row - this.nwse);
     },
     getLengthForRow: function(row)
     {
@@ -37,6 +37,10 @@ HexMapSize.prototype =
                 : row1 < this.getMaxSide() ? this.getMinSide() - 1
                 : this.getHeight() - row1
             );
+    },
+    getMiddleRow: function()
+    {
+        return Math.floor(this.getHeight() / 2);
     },
     getHexCount: function()
     {
@@ -74,6 +78,14 @@ HexMap.prototype = new PropertySetter().extend(
     displayContainer: document.body,
     size: new HexMapSize(3,3,3),
     hexCount: 0,
+    directions: {
+        north: [-1, -1],
+        south: [1, 1],
+        northeast: [-1, 0],
+        northwest: [0, -1],
+        southeast: [0, 1],
+        southwest: [1, 0]
+    },
 
     setSize: function(size)
     {
@@ -90,7 +102,7 @@ HexMap.prototype = new PropertySetter().extend(
     draw: function()
     {
         this.clear();
-        height = this.size.getHeight();
+        var height = this.size.getHeight();
         for(var y=0; y<height; ++y)
         {
             this.drawRow(y);
@@ -98,24 +110,33 @@ HexMap.prototype = new PropertySetter().extend(
     },
     drawRow: function(row)
     {
-        length = this.size.getLengthForRow(row);
+        var length = this.size.getLengthForRow(row);
+        var middleRow = this.size.getMiddleRow();
+        var left = row < middleRow ? this.size.getIndentForRow(row) : 0;
+        var right = row > middleRow ? this.size.getIndentForRow(row) : 0;
         for(var x=0; x<length; ++x)
         {
-            this.viewHexAt(this.newHex(), x, row);
+            this.viewHexAt(this.newHex(x + left, x + right), x, row);
         }
     },
-    newHex: function()
+    newHex: function(x, y)
     {
-        hex = document.createElement("div");
+        hex = this.extend.call(
+            document.createElement("div"),
+            this.hexElementProperties
+        );
         hex.className = "hex";
+        hex.textContent = x + ',' + y;
+        hex.x = x;
+        hex.y = y;
+        hex.id = hex.getId(x,y);
         this.hexes[this.hexes.length] = hex;
-        hex.textContent = this.hexes.length;
-        return this.extend.call(hex, this.hexElementProperties);
+        return hex;
     },
     viewHexAt: function(hex, ns_edge_column, nwse_edge_row)
     {
         this.displayContainer.appendChild(hex);
-        x = ns_edge_column + this.size.getIndentForRow(nwse_edge_row);
+        x = ns_edge_column + this.size.getIndentForRow(nwse_edge_row) / 2;
         hex.style.left = nwse_edge_row * hex.clientWidth;
         hex.style.top = x * hex.clientHeight;
     },
@@ -212,6 +233,16 @@ HexMap.prototype = new PropertySetter().extend(
             }
             this.tile = null;
             this.style.backgroundColor = '';
+        },
+        getNeighbor: function(dx, dy)
+        {
+            var x = this.x + dx;
+            var y = this.y + dy;
+            return document.getElementById(this.getId(x,y));
+        },
+        getId: function(x,y)
+        {
+            return 'maphex' + x + ',' + y;
         }
     }
 });

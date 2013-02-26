@@ -17,7 +17,9 @@ function HexTileBag(name, number, totalNumberOfHexTileBags, tilesInBag, containe
 HexTileBag.prototype = {
     createTile: function()
     {
-        this.add(new HexTile(this));
+        var tile = new HexTile(this);
+        this.add(tile);
+        return tile;
     },
     remove: function(tile)
     {
