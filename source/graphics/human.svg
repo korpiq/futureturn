@@ -1,0 +1,26 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+    "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="2cm" height="4cm" viewBox="0 0 200 400"
+    xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <path fill="red" stroke="black" stroke-width="5"
+        d="
+            M 80 80
+            a40,40 0 1 1 40,0
+            l 25 5
+            a40,40 0 0 1 30,30
+            l 20 100
+            a20,20 0 0 1 -40,10
+            l 10 140
+            a25,25 0 0 1 -50,10
+            l -5 -50
+            a10,10 0 0 0 -20,0
+            l -5 50
+            a25,25 0 0 1 -50,-10
+            l 10 -140
+            a20,20 0 0 1 -40,-10
+            l 20 -100
+            a40,40 0 0 1 30,-30
+            z"
+    />
+</svg>
