@@ -16,6 +16,7 @@ Game.prototype = new PropertySetter().extend(
         var centerHex = this.hexmap.getCenterHex();
         var startTile = this.currentBag.createTile();
         startTile.put(centerHex);
+        this.piece = new GamePiece(centerHex);
         var directions = this.hexmap.directions;
         for(var direction in this.hexmap.directions)
         {

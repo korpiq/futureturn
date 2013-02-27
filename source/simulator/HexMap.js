@@ -243,6 +243,17 @@ HexMap.prototype = new PropertySetter().extend(
         getId: function(x,y)
         {
             return 'maphex' + x + ',' + y;
+        },
+        ondragover: function (event)
+        {
+            event.preventDefault();
+        },
+        ondrop: function (event)
+        {
+            var id = event.dataTransfer.getData('draggedId');
+            var gamePieceElement = document.getElementById(id);
+            var gamePiece = gamePieceElement.gamePiece;
+            gamePiece.put(event.target);
         }
     }
 });
