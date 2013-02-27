@@ -3,7 +3,7 @@
     "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="2cm" height="4cm" viewBox="0 0 200 400"
     xmlns="http://www.w3.org/2000/svg" version="1.1">
-    <path fill="red" stroke="black" stroke-width="5"
+    <path fill="red" stroke="black" stroke-width="15"
         d="
             M 80 80
             a40,40 0 1 1 40,0
