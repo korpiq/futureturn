@@ -169,5 +169,16 @@ HexTileBag.prototype = {
             }
         }
         throw "getTile from bag '" + this.name + "' without tiles";
+    },
+    hasTiles: function ()
+    {
+        for ( var color in this.tiles )
+        {
+            if (this.tiles[color].length)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 };

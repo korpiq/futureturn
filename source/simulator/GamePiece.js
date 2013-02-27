@@ -1,5 +1,6 @@
-function GamePiece(hex)
+function GamePiece(game, hex)
 {
+    this.game = game;
     this.element = document.getElementById('game_piece');
     this.extend.call(this.element, this.elementProperties);
     this.extend.call(this.element.style, this.elementStyleProperties);
@@ -18,10 +19,22 @@ GamePiece.prototype = new PropertySetter().extend(
         this.element.style.left =
             hex.offsetLeft + hex.parentElement.offsetLeft +
             (hex.offsetWidth - this.element.offsetWidth) / 2;
-    },
-    move: function(directionName)
-    {
-        
+
+        if (! hex.tile)
+        {
+            this.game.getCurrentBag().getTile().put(hex);
+        }
+        this.game.setCurrentBag(hex.tile.bag);
+        var directions = this.game.hexmap.directions;
+        for(var direction in directions)
+        {
+            var d = directions[direction];
+            var neighbor = hex.getNeighbor(d[0], d[1]);
+            if (neighbor && ! neighbor.tile)
+            {
+                this.game.getCurrentBag().getTile().put(neighbor);
+            }
+        }
     },
 
     elementProperties:
