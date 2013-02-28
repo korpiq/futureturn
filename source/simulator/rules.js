@@ -117,6 +117,9 @@ var rules = {
             "normal": "sea"
           },
           {
+            "normal": "sea"
+          },
+          {
             "artifact": "sea"
           },
           {
@@ -161,6 +164,9 @@ var rules = {
             "normal": "lowland"
           },
           {
+            "normal": "lowland"
+          },
+          {
             "artifact": "lowland"
           },
           {
@@ -182,7 +188,13 @@ var rules = {
             "normal": "plain"
           },
           {
+            "normal": "plain"
+          },
+          {
             "artifact": "plain"
+          },
+          {
+            "normal": "river"
           },
           {
             "normal": "lowland"
@@ -203,7 +215,13 @@ var rules = {
             "normal": "highland"
           },
           {
+            "normal": "highland"
+          },
+          {
             "artifact": "highland"
+          },
+          {
+            "normal": "river"
           },
           {
             "normal": "plain"
@@ -224,7 +242,13 @@ var rules = {
             "normal": "mountain"
           },
           {
+            "normal": "mountain"
+          },
+          {
             "artifact": "mountain"
+          },
+          {
+            "normal": "river"
           },
           {
             "normal": "highland"
