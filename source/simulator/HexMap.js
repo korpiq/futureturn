@@ -209,8 +209,6 @@ HexMap.prototype = new PropertySetter().extend(
             }
             else
             {
-                this.dehighlight();
-                delete(this.highlightColor);
                 if (this.tile)
                 {
                     this.tile.put(this.tile.bag);
@@ -219,8 +217,8 @@ HexMap.prototype = new PropertySetter().extend(
                 {
                     getGame().putTileFromCurrentBagTo(this);
                 }
-                this.highlight();
             }
+            this.highlight();
         },
         add: function (tile)
         {
@@ -228,6 +226,8 @@ HexMap.prototype = new PropertySetter().extend(
             {
                 throw "Adding tile to a hex map that already has one";
             }
+            this.dehighlight();
+            delete(this.highlightColor);
             this.tile = tile;
             this.style.backgroundColor = this.tile.color;
         },
