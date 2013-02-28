@@ -1,70 +1,32 @@
 var rules = {
-  "tileTypes": [
+  "bag-mixing": [
     {
-      "name": "sea",
-      "material": "water",
-      "every nth tile is a": {
-        "fish": 4,
-        "artifact": 6
-      }
+      "from": "river",
+      "to": "each bag for terrain material",
+      "one tile of every": 5
     },
     {
-      "name": "river",
-      "material": "water",
-      "every nth tile is a": {
-        "fish": 6,
-        "artifact": 6
-      }
+      "from": "each bag for terrain material",
+      "to": "bag for next higher terrain",
+      "one tile of every": 5
     },
     {
-      "name": "lowland",
-      "material": "terrain",
-      "every nth tile is a": {
-        "spring": 8,
-        "fruitful": 8,
-        "artifact": 6
-      }
+      "from": "each bag for terrain material",
+      "to": "bag for next lower terrain",
+      "one tile of every": 5
     },
     {
-      "name": "plain",
-      "material": "terrain",
-      "every nth tile is a": {
-        "spring": 8,
-        "forest": 8,
-        "artifact": 6
-      }
+      "from": "sea",
+      "to": "mountain",
+      "one tile of every": 10
     },
     {
-      "name": "highland",
-      "material": "terrain",
-      "every nth tile is a": {
-        "spring": 6,
-        "ore": 8,
-        "artifact": 6
-      }
-    },
-    {
-      "name": "mountain",
-      "material": "terrain",
-      "every nth tile is a": {
-        "spring": 6,
-        "ore": 6,
-        "peak": 6,
-        "artifact": 6,
-        "cave": 8
-      }
+      "from": "lowland",
+      "to": "sea",
+      "one tile of every": 10
     }
   ],
-  "tileFeatures": {
-    "fish": "food",
-    "artifact": "first to enter gets an artifact card",
-    "fruitful": "food",
-    "forest": "wood for building or energy",
-    "ore": "metal for building",
-    "peak": "better visibility to space",
-    "cave": "route to other caves in same mountain range"
-  },
-  "gameSizes": {
+  "game-sizes": {
     "players": [
       1,
       2,
@@ -132,31 +94,302 @@ var rules = {
       43
     ]
   },
-  "bagMixing": [
-    {
-      "from": "river",
-      "to": "each bag for terrain material",
-      "one tile of every": 5
-    },
-    {
-      "from": "each bag for terrain material",
-      "to": "bag for next higher terrain",
-      "one tile of every": 5
-    },
-    {
-      "from": "each bag for terrain material",
-      "to": "bag for next lower terrain",
-      "one tile of every": 5
-    },
-    {
-      "from": "sea",
-      "to": "mountain",
-      "one tile of every": 10
-    },
-    {
-      "from": "lowland",
-      "to": "sea",
-      "one tile of every": 10
-    }
-  ]
+  "tile-features": {
+    "fish": "food",
+    "artifact": "first to enter gets an artifact card",
+    "fruitful": "food",
+    "forest": "wood for building or energy",
+    "ore": "metal for building",
+    "peak": "better visibility to space",
+    "cave": "route to other caves in same mountain range"
+  },
+  "tilesets": {
+    "1sea1river4terrain": [
+      {
+        "name": "sea",
+        "color": "blue",
+        "material": "water",
+        "distribution": [
+          {
+            "normal": "sea"
+          },
+          {
+            "normal": "sea"
+          },
+          {
+            "artifact": "sea"
+          },
+          {
+            "normal": "mountain"
+          },
+          {
+            "normal": "lowland"
+          }
+        ]
+      },
+      {
+        "name": "river",
+        "color": "cyan",
+        "material": "water",
+        "distribution": [
+          {
+            "normal": "river"
+          },
+          {
+            "normal": "river"
+          },
+          {
+            "normal": "river"
+          },
+          {
+            "normal": "river"
+          },
+          {
+            "normal": "sea"
+          }
+        ]
+      },
+      {
+        "name": "lowland",
+        "color": "lightgreen",
+        "material": "terrain",
+        "distribution": [
+          {
+            "normal": "lowland"
+          },
+          {
+            "normal": "lowland"
+          },
+          {
+            "artifact": "lowland"
+          },
+          {
+            "normal": "river"
+          },
+          {
+            "normal": "plain"
+          }
+        ]
+      },
+      {
+        "name": "plain",
+        "material": "terrain",
+        "distribution": [
+          {
+            "normal": "plain"
+          },
+          {
+            "normal": "plain"
+          },
+          {
+            "artifact": "plain"
+          },
+          {
+            "normal": "lowland"
+          },
+          {
+            "normal": "highland"
+          }
+        ]
+      },
+      {
+        "name": "highland",
+        "material": "terrain",
+        "distribution": [
+          {
+            "normal": "highland"
+          },
+          {
+            "normal": "highland"
+          },
+          {
+            "artifact": "highland"
+          },
+          {
+            "normal": "plain"
+          },
+          {
+            "normal": "mountain"
+          }
+        ]
+      },
+      {
+        "name": "mountain",
+        "material": "terrain",
+        "distribution": [
+          {
+            "normal": "mountain"
+          },
+          {
+            "normal": "mountain"
+          },
+          {
+            "artifact": "mountain"
+          },
+          {
+            "normal": "highland"
+          },
+          {
+            "normal": "sea"
+          }
+        ]
+      }
+    ],
+    "2sea1river4terrain": [
+      {
+        "name": "deepsea",
+        "color": "deepblue",
+        "material": "water",
+        "distribution": [
+          {
+            "normal": "deepsea"
+          },
+          {
+            "normal": "deepsea"
+          },
+          {
+            "artifact": "deepsea"
+          },
+          {
+            "normal": "sea"
+          },
+          {
+            "normal": "mountain"
+          }
+        ]
+      },
+      {
+        "name": "sea",
+        "color": "blue",
+        "material": "water",
+        "distribution": [
+          {
+            "normal": "sea"
+          },
+          {
+            "normal": "sea"
+          },
+          {
+            "artifact": "sea"
+          },
+          {
+            "normal": "deepsea"
+          },
+          {
+            "normal": "lowland"
+          }
+        ]
+      },
+      {
+        "name": "river",
+        "color": "cyan",
+        "material": "water",
+        "distribution": [
+          {
+            "normal": "river"
+          },
+          {
+            "normal": "river"
+          },
+          {
+            "normal": "river"
+          },
+          {
+            "normal": "river"
+          },
+          {
+            "normal": "sea"
+          }
+        ]
+      },
+      {
+        "name": "lowland",
+        "color": "lightgreen",
+        "material": "terrain",
+        "distribution": [
+          {
+            "normal": "lowland"
+          },
+          {
+            "normal": "lowland"
+          },
+          {
+            "artifact": "lowland"
+          },
+          {
+            "normal": "river"
+          },
+          {
+            "normal": "plain"
+          }
+        ]
+      },
+      {
+        "name": "plain",
+        "color": "green",
+        "material": "terrain",
+        "distribution": [
+          {
+            "normal": "plain"
+          },
+          {
+            "normal": "plain"
+          },
+          {
+            "artifact": "plain"
+          },
+          {
+            "normal": "lowland"
+          },
+          {
+            "normal": "highland"
+          }
+        ]
+      },
+      {
+        "name": "highland",
+        "color": "lightbrown",
+        "material": "terrain",
+        "distribution": [
+          {
+            "normal": "highland"
+          },
+          {
+            "normal": "highland"
+          },
+          {
+            "artifact": "highland"
+          },
+          {
+            "normal": "plain"
+          },
+          {
+            "normal": "mountain"
+          }
+        ]
+      },
+      {
+        "name": "mountain",
+        "color": "gray",
+        "material": "terrain",
+        "distribution": [
+          {
+            "normal": "mountain"
+          },
+          {
+            "normal": "mountain"
+          },
+          {
+            "artifact": "mountain"
+          },
+          {
+            "normal": "highland"
+          },
+          {
+            "normal": "deepsea"
+          }
+        ]
+      }
+    ]
+  }
 };

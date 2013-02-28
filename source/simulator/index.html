@@ -107,6 +107,35 @@
         return intVal;
     }
 
+    function start()
+    {
+        var typeSelector = document.getElementById('tileset');
+        for (var tilesetname in rules.tilesets)
+        {
+            var option = document.createElement('option');
+            option.value = tilesetname;
+            option.textContent = tilesetname;
+            typeSelector.appendChild(option);
+        }
+        typeSelector.firstElementChild.selected = true;
+        updateTileset();
+    }
+    function updateTileset()
+    {
+        var tilesetSelector = document.getElementById('tileset');
+        var tilesetname = tilesetSelector.selectedOptions[0].value;
+        var tileset = rules.tilesets[tilesetname];
+        rules.tileTypes = tileset;
+        setInput('types', tileset.length);
+        updateSides();
+    }
+    function firstKey(list)
+    {
+        for (var key in list)
+        {
+            return key;
+        }
+    }
     function updateSides()
     {
         var players = getIntInput('players');
@@ -137,13 +166,14 @@
     }
  </script>
 </head>
-<body onload="updateSides()">
+<body onload="start()">
 
  <div id="hexmap_display">&nbsp;</div>
 
  <div id="form_container">
  <form id="hexmap_settings" onsubmit="restartGame(); return false;">
-  tile types: <input id="types" value="6" onchange="updateMixes()"><br/>
+  tile set: <select id="tileset" onchange="updateTileset()"></select><br/>
+  <input id="types" type="hidden" value="6" />
   players: <input id="players" value="3" onchange="updateSides()"><br/>
   <hr/>
   edge lengths:<br/>

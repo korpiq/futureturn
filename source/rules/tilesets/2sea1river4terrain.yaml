@@ -1,0 +1,71 @@
+# what different tile types there are in the game
+
+- name: deepsea
+  color: deepblue
+  material: water
+  distribution:
+    - normal: deepsea
+    - normal: deepsea
+    - artifact: deepsea
+    - normal: sea
+    - normal: mountain
+
+- name: sea
+  color: blue
+  material: water
+  distribution:
+    - normal: sea
+    - normal: sea
+    - artifact: sea
+    - normal: deepsea
+    - normal: lowland
+
+- name: river
+  color: cyan
+  material: water
+  distribution:
+    - normal: river
+    - normal: river
+    - normal: river
+    - normal: river
+    - normal: sea
+
+- name: lowland
+  color: lightgreen
+  material: terrain
+  distribution:
+    - normal: lowland
+    - normal: lowland
+    - artifact: lowland
+    - normal: river
+    - normal: plain
+
+- name: plain
+  color: green
+  material: terrain
+  distribution:
+    - normal: plain
+    - normal: plain
+    - artifact: plain
+    - normal: lowland
+    - normal: highland
+
+- name: highland
+  color: lightbrown
+  material: terrain
+  distribution:
+    - normal: highland
+    - normal: highland
+    - artifact: highland
+    - normal: plain
+    - normal: mountain
+
+- name: mountain
+  color: gray
+  material: terrain
+  distribution:
+    - normal: mountain
+    - normal: mountain
+    - artifact: mountain
+    - normal: highland
+    - normal: deepsea
