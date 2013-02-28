@@ -43,6 +43,10 @@ GamePiece.prototype = new PropertySetter().extend(
         ondragstart: function (event)
         {
             event.dataTransfer.setData('draggedId', event.target.id);
+        },
+        onclick: function (event)
+        {
+            game.selected = this.gamePiece;
         }
     },
     elementStyleProperties:

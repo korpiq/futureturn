@@ -64,6 +64,7 @@ HexTileBag.prototype = {
         element.onclick = function ()
         {
             getGame().setCurrentBag(this.hexTileBag);
+            game.selected = this.hexTileBag;
         }
         var nameElement = document.createElement('div');
         nameElement.textContent = this.name;

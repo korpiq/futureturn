@@ -203,18 +203,24 @@ HexMap.prototype = new PropertySetter().extend(
         },
         onclick: function ()
         {
-            document.it = this;
-            this.dehighlight();
-            delete(this.highlightColor);
-            if (this.tile)
+            if (game.selected instanceof GamePiece)
             {
-                this.tile.put(this.tile.bag);
+                game.selected.put(this);
             }
             else
             {
-                getGame().putTileFromCurrentBagTo(this);
+                this.dehighlight();
+                delete(this.highlightColor);
+                if (this.tile)
+                {
+                    this.tile.put(this.tile.bag);
+                }
+                else
+                {
+                    getGame().putTileFromCurrentBagTo(this);
+                }
+                this.highlight();
             }
-            this.highlight();
         },
         add: function (tile)
         {
