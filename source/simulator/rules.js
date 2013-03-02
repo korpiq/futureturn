@@ -108,19 +108,13 @@ var rules = {
       "sea": {
         "color": "blue",
         "material": "water",
-        "distribution": [
-          "sea",
-          {
-            "special": "sea"
-          },
-          {
-            "artifact": "sea"
-          },
-          "mountain",
-          "lowland"
-        ],
+        "mix": {
+          "sea": 3,
+          "mountain": 1,
+          "lowland": 1
+        },
         "special": {
-          "island": "terrain tile but counts as water for map exploration",
+          "island": "terrain tile but edges count as water for map exploration",
           "fish": "food",
           "volcano": "energy for submerged units",
           "ore": "metal for submerged units",
@@ -130,17 +124,10 @@ var rules = {
       "river": {
         "color": "cyan",
         "material": "water",
-        "distribution": [
-          "river",
-          "river",
-          {
-            "special": "river"
-          },
-          {
-            "artifact": "river"
-          },
-          "sea"
-        ],
+        "mix": {
+          "river": 4,
+          "sea": 1
+        },
         "special": {
           "fish": "food"
         }
@@ -148,18 +135,11 @@ var rules = {
       "lowland": {
         "color": "lightgreen",
         "material": "terrain",
-        "distribution": [
-          "lowland",
-          "lowland",
-          {
-            "special": "lowland"
-          },
-          {
-            "artifact": "lowland"
-          },
-          "sea",
-          "plain"
-        ],
+        "mix": {
+          "lowland": 3,
+          "sea": 1,
+          "plain": 1
+        },
         "special": {
           "fruit": "food",
           "meadow": "hay (material for energy+pollution, textiles?)"
@@ -168,9 +148,8 @@ var rules = {
       "plain": {
         "color": "green",
         "material": "terrain",
-        "distribution": {
-          "plain": 2,
-          "special": 1,
+        "mix": {
+          "plain": 3,
           "lowland": 1,
           "highland": 1
         },
@@ -183,10 +162,8 @@ var rules = {
       "highland": {
         "color": "brown",
         "material": "terrain",
-        "distribution": {
-          "highland": 1,
-          "artifact": 1,
-          "special": 1,
+        "mix": {
+          "highland": 3,
           "plain": 1,
           "mountain": 1
         },
@@ -201,10 +178,8 @@ var rules = {
       "mountain": {
         "color": "gray",
         "material": "terrain",
-        "distribution": {
-          "mountain": 1,
-          "artifact": "first to enter gets an artifact card",
-          "special": 1,
+        "mix": {
+          "mountain": 3,
           "highland": 1,
           "river": 1
         },
