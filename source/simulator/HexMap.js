@@ -121,17 +121,38 @@ HexMap.prototype = new PropertySetter().extend(
     },
     newHex: function(x, y)
     {
-        hex = this.extend.call(
+        var hex = this.extend.call(
             document.createElement("div"),
             this.hexElementProperties
         );
         hex.className = "hex";
-        hex.textContent = x + ',' + y;
         hex.x = x;
         hex.y = y;
         hex.id = hex.getId(x,y);
+        hex.image = this.newHexImage();
+        hex.appendChild(hex.image);
+        hex.appendChild(this.newHexText(x + ',' + y));
         this.hexes[this.hexes.length] = hex;
         return hex;
+    },
+    newHexImage: function()
+    {
+        var image = this.extend.call(
+            new Image(),
+            this.hexImageProperties
+        );
+        this.extend.call(
+            image.style,
+            this.hexImageStyleProperties
+        );
+        return image;
+    },
+    newHexText: function(text)
+    {
+        var t = document.createElement('div');
+        t.textContent = text;
+        t.style.paddingTop='0.3em';
+        return t;
     },
     viewHexAt: function(hex, ns_edge_column, nwse_edge_row)
     {
@@ -159,46 +180,18 @@ HexMap.prototype = new PropertySetter().extend(
         },
         highlight: function()
         {
-            if(this.colorBeforeHighlight === undefined)
+            if(this.image.originalOpacity === undefined)
             {
-                this.colorBeforeHighlight = this.style.backgroundColor;
-                this.style.backgroundColor = this.getHighlightColor();
+                this.image.originalOpacity = this.image.style.opacity;
+                this.image.style.opacity = 0.3;
             }
-        },
-        getHighlightColor: function()
-        {
-            return this.highlightColor
-                ? this.highlightColor
-                : this.highlightColor = this.calculateHighlightColor();
-        },
-        calculateHighlightColor: function()
-        {
-            var myStyle = window.getComputedStyle(this);
-            var baseColor = eval("this.list_" + myStyle.backgroundColor);
-            return(
-                'rgb(' + this.highlightColorPart(baseColor[0])
-                + ',' + this.highlightColorPart(baseColor[1])
-                + ',' + this.highlightColorPart(baseColor[2])
-                + ')'
-            );
-        },
-        list_rgb: function (r, g, b)
-        {
-            return [r, g, b];
-        },
-        highlightColorPart: function(a)
-        {
-            var mod = 30;
-            return(
-                ((a += mod) < 256) ? a : 255 - (a % 255)
-            );
         },
         dehighlight: function()
         {
-            if(this.colorBeforeHighlight !== undefined)
+            if(this.image.originalOpacity !== undefined)
             {
-                this.style.backgroundColor = this.colorBeforeHighlight;
-                delete(this.colorBeforeHighlight);
+                this.image.style.opacity = this.image.originalOpacity;
+                delete(this.image.originalOpacity);
             }
         },
         onclick: function ()
@@ -227,9 +220,9 @@ HexMap.prototype = new PropertySetter().extend(
                 throw "Adding tile to a hex map that already has one";
             }
             this.dehighlight();
-            delete(this.highlightColor);
             this.tile = tile;
-            this.style.backgroundColor = this.tile.color;
+            this.image.originalSrc = this.image.src;
+            this.image.src = 'graphics/hex/' + tile.bag.name + '.svg';
         },
         remove: function (tile)
         {
@@ -238,7 +231,7 @@ HexMap.prototype = new PropertySetter().extend(
                 throw "Removing tile from map hex that does not have it";
             }
             this.tile = null;
-            this.style.backgroundColor = '';
+            this.image.src = this.image.originalSrc;
         },
         getNeighbor: function(dx, dy)
         {
@@ -259,7 +252,21 @@ HexMap.prototype = new PropertySetter().extend(
             var id = event.dataTransfer.getData('draggedId');
             var gamePieceElement = document.getElementById(id);
             var gamePiece = gamePieceElement.gamePiece;
-            gamePiece.put(event.target);
+            gamePiece.put(this);
+        },
+        style: {
+            paddingTop: '0.3em'
         }
+    },
+    hexImageProperties: {
+        src: 'graphics/hex/empty.svg'
+    },
+    hexImageStyleProperties: {
+        position: 'absolute',
+        width: '2.75em',
+        left: '-0.4em',
+        top: '-0.4em',
+        opacity: 0.8,
+        zIndex: -1
     }
 });

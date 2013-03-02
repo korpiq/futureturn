@@ -54,7 +54,7 @@ GamePiece.prototype = new PropertySetter().extend(
     },
     elementStyleProperties:
     {
-        zIndex: 1,
+        zIndex: 10,
         width: '1em',
         position: 'fixed'
     }
