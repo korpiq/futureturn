@@ -104,161 +104,117 @@ var rules = {
     "cave": "route to other caves in same mountain range"
   },
   "tilesets": {
-    "1sea1river4terrain": [
-      {
-        "name": "sea",
+    "1sea1river4terrain": {
+      "sea": {
         "color": "blue",
         "material": "water",
         "distribution": [
+          "sea",
           {
-            "normal": "sea"
-          },
-          {
-            "normal": "sea"
-          },
-          {
-            "normal": "sea"
+            "special": "sea"
           },
           {
             "artifact": "sea"
           },
-          {
-            "normal": "mountain"
-          },
-          {
-            "normal": "lowland"
-          }
-        ]
+          "mountain",
+          "lowland"
+        ],
+        "special": {
+          "island": "terrain tile but counts as water for map exploration",
+          "fish": "food",
+          "volcano": "energy for submerged units",
+          "ore": "metal for submerged units",
+          "seaweed": "food or material for submerged units"
+        }
       },
-      {
-        "name": "river",
+      "river": {
         "color": "cyan",
         "material": "water",
         "distribution": [
+          "river",
+          "river",
           {
-            "normal": "river"
+            "special": "river"
           },
           {
-            "normal": "river"
+            "artifact": "river"
           },
-          {
-            "normal": "river"
-          },
-          {
-            "normal": "river"
-          },
-          {
-            "normal": "sea"
-          }
-        ]
+          "sea"
+        ],
+        "special": {
+          "fish": "food"
+        }
       },
-      {
-        "name": "lowland",
+      "lowland": {
         "color": "lightgreen",
         "material": "terrain",
         "distribution": [
+          "lowland",
+          "lowland",
           {
-            "normal": "lowland"
-          },
-          {
-            "normal": "lowland"
-          },
-          {
-            "normal": "lowland"
+            "special": "lowland"
           },
           {
             "artifact": "lowland"
           },
-          {
-            "normal": "river"
-          },
-          {
-            "normal": "plain"
-          }
-        ]
+          "sea",
+          "plain"
+        ],
+        "special": {
+          "fruit": "food",
+          "meadow": "hay (material for energy+pollution, textiles?)"
+        }
       },
-      {
-        "name": "plain",
+      "plain": {
+        "color": "green",
         "material": "terrain",
-        "distribution": [
-          {
-            "normal": "plain"
-          },
-          {
-            "normal": "plain"
-          },
-          {
-            "normal": "plain"
-          },
-          {
-            "artifact": "plain"
-          },
-          {
-            "normal": "river"
-          },
-          {
-            "normal": "lowland"
-          },
-          {
-            "normal": "highland"
-          }
-        ]
+        "distribution": {
+          "plain": 2,
+          "special": 1,
+          "lowland": 1,
+          "highland": 1
+        },
+        "special": {
+          "artifact": "first to enter gets an artifact card",
+          "forest": "wood (material for energy+pollution, construction)",
+          "berries": "food"
+        }
       },
-      {
-        "name": "highland",
+      "highland": {
+        "color": "brown",
         "material": "terrain",
-        "distribution": [
-          {
-            "normal": "highland"
-          },
-          {
-            "normal": "highland"
-          },
-          {
-            "normal": "highland"
-          },
-          {
-            "artifact": "highland"
-          },
-          {
-            "normal": "river"
-          },
-          {
-            "normal": "plain"
-          },
-          {
-            "normal": "mountain"
-          }
-        ]
+        "distribution": {
+          "highland": 1,
+          "artifact": 1,
+          "special": 1,
+          "plain": 1,
+          "mountain": 1
+        },
+        "special": {
+          "sand": "silicon (material for construction?)",
+          "desert": "units die if they stop here",
+          "lava": "energy with water pipe",
+          "stone": "material for construction",
+          "spring": "starts a river on one side, highland on others"
+        }
       },
-      {
-        "name": "mountain",
+      "mountain": {
+        "color": "gray",
         "material": "terrain",
-        "distribution": [
-          {
-            "normal": "mountain"
-          },
-          {
-            "normal": "mountain"
-          },
-          {
-            "normal": "mountain"
-          },
-          {
-            "artifact": "mountain"
-          },
-          {
-            "normal": "river"
-          },
-          {
-            "normal": "highland"
-          },
-          {
-            "normal": "sea"
-          }
-        ]
+        "distribution": {
+          "mountain": 1,
+          "artifact": "first to enter gets an artifact card",
+          "special": 1,
+          "highland": 1,
+          "river": 1
+        },
+        "special": {
+          "peak": "bonus for astronomy with observatory",
+          "volcano": "energy with water pipe",
+          "ore": "metal for construction"
+        }
       }
-    ],
+    },
     "2sea1river4terrain": [
       {
         "name": "deepsea",

@@ -25,13 +25,12 @@ TileBagSetBuilder.prototype = new PropertySetter().extend(
     createTileBags: function ()
     {
         var tilebags = [];
-
-        for(var i=0; i < this.types; ++i)
+        var i = 0;
+        for (var name in rules.tileTypes)
         {
-            var name = rules.tileTypes[i] ? rules.tileTypes[i].name : i;
             tilebags.push(new HexTileBag(
                 name,
-                i+1,
+                ++i,
                 this.types,
                 this.hexesPerType,
                 this.bagsContainer

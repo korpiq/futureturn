@@ -1,66 +1,77 @@
 # what different tile types there are in the game
+# mix: tiles to put into bag of this type for each player
+# special: some tiles of this type carry these special effects
+# artifact: first to enter gets an artifact card, replaces tile with another from box
+# sample subtyping: 50% normal, 30% special, 20% artifact
 
-- name: sea
+sea:
   color: blue
   material: water
-  distribution:
-    - normal: sea
-    - normal: sea
-    - normal: sea
-    - artifact: sea
-    - normal: mountain
-    - normal: lowland
+  mix:
+    sea: 3
+    mountain: 1
+    lowland: 1
+  special:
+    island: terrain tile but edges count as water for map exploration
+    fish: food
+    volcano: energy for submerged units
+    ore: metal for submerged units
+    seaweed: food or material for submerged units
 
-- name: river
+river:
   color: cyan
   material: water
-  distribution:
-    - normal: river
-    - normal: river
-    - normal: river
-    - normal: river
-    - normal: sea
+  mix:
+    river: 4
+    sea: 1
+  special:
+    fish: food
 
-- name: lowland
+lowland:
   color: lightgreen
   material: terrain
-  distribution:
-    - normal: lowland
-    - normal: lowland
-    - normal: lowland
-    - artifact: lowland
-    - normal: river
-    - normal: plain
+  mix:
+    lowland: 3
+    sea: 1
+    plain: 1
+  special:
+    fruit: food
+    meadow: hay (material for energy+pollution, textiles?)
 
-- name: plain
+plain:
+  color: green
   material: terrain
-  distribution:
-    - normal: plain
-    - normal: plain
-    - normal: plain
-    - artifact: plain
-    - normal: river
-    - normal: lowland
-    - normal: highland
+  mix:
+    plain: 3
+    lowland: 1
+    highland: 1
+  special:
+    artifact: first to enter gets an artifact card
+    forest: wood (material for energy+pollution, construction)
+    berries: food
 
-- name: highland
+highland:
+  color: brown
   material: terrain
-  distribution:
-    - normal: highland
-    - normal: highland
-    - normal: highland
-    - artifact: highland
-    - normal: river
-    - normal: plain
-    - normal: mountain
+  mix:
+    highland: 3
+    plain: 1
+    mountain: 1
+  special:
+    sand: silicon (material for construction?)
+    desert: units die if they stop here
+    lava: energy with water pipe
+    stone: material for construction
+    spring: starts a river on one side, highland on others
 
-- name: mountain
+mountain:
+  color: gray
   material: terrain
-  distribution:
-    - normal: mountain
-    - normal: mountain
-    - normal: mountain
-    - artifact: mountain
-    - normal: river
-    - normal: highland
-    - normal: sea
+  mix:
+    mountain: 3
+    highland: 1
+    river: 1
+  special:
+    peak: bonus for astronomy with observatory
+    volcano: energy with water pipe
+    ore: metal for construction
