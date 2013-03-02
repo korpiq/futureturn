@@ -126,7 +126,7 @@
         var tilesetname = tilesetSelector.selectedOptions[0].value;
         var tileset = rules.tilesets[tilesetname];
         rules.tileTypes = tileset;
-        setInput('types', tileset.length);
+        setInput('types', countKeys(tileset));
         updateSides();
     }
     function firstKey(list)
@@ -135,6 +135,12 @@
         {
             return key;
         }
+    }
+    function countKeys(object)
+    {
+        var i = 0;
+        for (var key in object) ++i;
+        return i;
     }
     function updateSides()
     {
@@ -198,6 +204,5 @@
  <div id="bags_container">
  </div>
 
- <img id="game_piece" src="graphics/human.svg" />
 </body>
 </html>

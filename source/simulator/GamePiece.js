@@ -1,10 +1,11 @@
 function GamePiece(game, hex)
 {
     this.game = game;
-    this.element = document.getElementById('game_piece');
+    this.element = new Image();
     this.extend.call(this.element, this.elementProperties);
     this.extend.call(this.element.style, this.elementStyleProperties);
     this.element.gamePiece = this;
+    hex.parentElement.appendChild(this.element);
     this.put(hex);
 }
 
@@ -47,7 +48,9 @@ GamePiece.prototype = new PropertySetter().extend(
         onclick: function (event)
         {
             game.selected = this.gamePiece;
-        }
+        },
+        src: 'graphics/human.svg',
+        id: 'game_piece0'
     },
     elementStyleProperties:
     {
