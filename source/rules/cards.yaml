@@ -1,0 +1,58 @@
+%YAML 1.2
+---
+Landing Stack:
+  Purpose: Contents of card stack when game starts.
+  Card Groups:
+    Planet Type Selection:
+      Purpose: Determine how planet tiles are played
+      Alternative Play: Choose one together before beginning.
+      Cards:
+        Oxygenless Planet:
+          Immediate Action:
+            Set Lasting Effect:
+              Whenever placing new tile: >
+                Place tile with desolate side up
+            Add Stack: Oxygenless Planet Stack
+        Oxygenous Planet:
+          Immediate Action:
+            Set Lasting Effect:
+              Whenever placing new tile: >
+                Place tile with desolate side up
+            Add Stack: Oxygenous Planet Stack
+        Terran Planet:
+          Immediate Action:
+            Set Lasting Effect:
+              Whenever placing new tile: >
+                Place tile with productive side up
+            Add Stack: Terran Planet Stack
+
+Oxygenless Planet Stack:
+  Purpose: Hard, "realistic" terraformation setting
+
+Oxygenous Planet Stack:
+  Purpose: Fast terraformation setting
+
+Terran Planet Stack:
+  Purpose: Imaginative colonialistic setting
+  Card Groups:
+    Terraformer Selection:
+      Purpose: >
+        How planet became Earth-like determines
+        what kind of life there is.
+      Cards:
+        Robot Terraformers from Earth:
+          Description: >
+            Robots sent from Earth after us
+            flew past our generation ship
+            to terraform the planet for us.
+          Add stack: Robot Terraformers from Earth Stack
+        Panspermia:
+          Description: >
+            Organic gas clouds in space carry seeds of life
+            everywhere. On like planets life develops alike.
+          Add Stack: Panspermia stack
+        Galactic Gardeners:
+          Description: >
+            Someone carefully constructed conditions for life
+            on this planet.
+          Add Stack: Galactic Gardeners stack
