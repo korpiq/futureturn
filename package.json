@@ -23,5 +23,10 @@
   "gitHead": "69c4854657297c81ba179078b4dbd9b7545aedf3",
   "dependencies": {
     "yamljs": "~0.1.4"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-yaml": "^0.4.1"
   }
 }
