@@ -1,36 +1,57 @@
 %YAML 1.2
 ---
-Landing Stack:
-  Purpose: Contents of card stack when game starts.
+Approach Stack:
+  Purpose: Specify conditions in place before game starts.
   Card Groups:
     Planet Type Selection:
-      Purpose: Determine how planet tiles are played
-      Alternative Play: Choose one together before beginning.
+      Purpose: Determine how planet tiles are played.
       Cards:
         Oxygenless Planet:
+          Description: >
+            Planet has oxygen only bound in ground,
+            so no water circulation nor breathable air.
           Immediate Action:
             Set Lasting Effect:
-              Whenever placing new tile: >
-                Place tile with desolate side up
+              Whenever placing new tile:
+                Description: Surface does not support life.
+                Action: Place tile with arid side up
+              Whenever a tile with fertile side up is left without units:
+                Description: Unmaintained life support deteriorates.
+                Action: Turn tile arid side up.
             Add Stack: Oxygenless Planet Stack
         Oxygenous Planet:
+          Description: Planet has oxygen on its surface in air and water.
           Immediate Action:
             Set Lasting Effect:
-              Whenever placing new tile: >
-                Place tile with desolate side up
+              Whenever placing new tile:
+                Description: Surface carries no life of its own.
+                Action: Place tile with arid side up
             Add Stack: Oxygenous Planet Stack
         Terran Planet:
+          Description: Planet has Earth-like life.
           Immediate Action:
             Set Lasting Effect:
-              Whenever placing new tile: >
-                Place tile with productive side up
+              Whenever placing new tile:
+                Description: Plants already grow on the surface.
+                Action: Place tile with fertile side up
             Add Stack: Terran Planet Stack
+
+Landing Stack:
+  Purpose: Contents of card stack when game starts.
 
 Oxygenless Planet Stack:
   Purpose: Hard, "realistic" terraformation setting
+  TODO:
+    - >
+      improvements necessary for survival and exploration
+      in hostile environment.
+    - options to add stacks to start large scale terraforming, epic!
 
 Oxygenous Planet Stack:
   Purpose: Fast terraformation setting
+  TODO:
+    - improvements necessary for eventual terraforming
+    - options to add stacks to create fancy, enhanced life?
 
 Terran Planet Stack:
   Purpose: Imaginative colonialistic setting
@@ -45,14 +66,17 @@ Terran Planet Stack:
             Robots sent from Earth after us
             flew past our generation ship
             to terraform the planet for us.
-          Add stack: Robot Terraformers from Earth Stack
+          Immediate Action:
+            Add stack: Robot Terraformers from Earth Stack
         Panspermia:
           Description: >
             Organic gas clouds in space carry seeds of life
             everywhere. On like planets life develops alike.
-          Add Stack: Panspermia stack
-        Galactic Gardeners:
+          Immediate Action:
+            Add Stack: Panspermia stack
+        Galactic Gardening:
           Description: >
             Someone carefully constructed conditions for life
             on this planet.
-          Add Stack: Galactic Gardeners stack
+          Immediate Action:
+            Add Stack: Galactic Gardening stack
